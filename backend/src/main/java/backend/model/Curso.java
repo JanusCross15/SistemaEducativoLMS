@@ -13,23 +13,13 @@ public class Curso {
     @Column(name = "id_curso")
     private Integer idCurso;
 
-    @Column(name = "id_docente")
-    private Integer idDocente;
-
-    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "grado")
-    private String grado;
-
-    @Column(name = "seccion")
-    private String seccion;
-
-    @Column(name = "estado")
-    private String estado;
+    @ManyToOne
+    @JoinColumn(name = "id_docente")
+    private Docente docente;
 
     // GETTERS Y SETTERS
 
@@ -39,14 +29,6 @@ public class Curso {
 
     public void setIdCurso(Integer idCurso) {
         this.idCurso = idCurso;
-    }
-
-    public Integer getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(Integer idDocente) {
-        this.idDocente = idDocente;
     }
 
     public String getNombre() {
@@ -65,27 +47,11 @@ public class Curso {
         this.descripcion = descripcion;
     }
 
-    public String getGrado() {
-        return grado;
+    public Docente getDocente() {
+        return docente;
     }
 
-    public void setGrado(String grado) {
-        this.grado = grado;
-    }
-
-    public String getSeccion() {
-        return seccion;
-    }
-
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 }

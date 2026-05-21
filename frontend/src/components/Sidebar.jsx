@@ -5,6 +5,8 @@ import {
   FaClipboardList,
   FaUsers,
   FaSignOutAlt,
+  FaUserFriends,
+  FaFilePdf
 } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
@@ -75,11 +77,22 @@ function Sidebar() {
         />
 
         <MenuItem
+          icon={<FaClipboardList />}
+          text="Matrículas"
+          onClick={() => navigate("/matriculas")}
+        />
+
+        <MenuItem
           icon={<FaUserGraduate />}
           text="Estudiantes"
           onClick={() => navigate("/estudiantes")}
         />
 
+        <MenuItem
+          icon={<FaUserFriends />}
+          text="Padres"
+          onClick={() => navigate("/padres")}
+        />
         <MenuItem
           icon={<FaChalkboardTeacher />}
           text="Docentes"
@@ -93,9 +106,9 @@ function Sidebar() {
         />
 
         <MenuItem
-          icon={<FaClipboardList />}
-          text="Matrículas"
-          onClick={() => navigate("/matriculas")}
+          icon={<FaFilePdf  />}
+          text="Generar Matrícula"
+          onClick={() => navigate("/generar-matricula")}
         />
       </div>
 

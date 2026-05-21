@@ -9,21 +9,30 @@ public class Estudiante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_estudiante")
     private Integer idEstudiante;
 
-    @Column(name = "codigo_estudiante")
     private String codigoEstudiante;
 
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String nombres;
-    private String apellidos;
 
-    @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 
-    private String grado;
-    private String seccion;
-    private String estado;
+    private String provincia;
+    private String departamento;
+    private String distrito;
+
+    private String sexo;
+    private Integer edad;
+    private String direccion;
+
+    @ManyToOne
+    @JoinColumn(name = "id_matricula")
+    private Matricula matricula;
+
+    public Estudiante() {
+    }
 
     public Integer getIdEstudiante() {
         return idEstudiante;
@@ -41,20 +50,28 @@ public class Estudiante {
         this.codigoEstudiante = codigoEstudiante;
     }
 
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
     public String getNombres() {
         return nombres;
     }
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
     }
 
     public LocalDate getFechaNacimiento() {
@@ -65,27 +82,59 @@ public class Estudiante {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getGrado() {
-        return grado;
+    public String getProvincia() {
+        return provincia;
     }
 
-    public void setGrado(String grado) {
-        this.grado = grado;
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
     }
 
-    public String getSeccion() {
-        return seccion;
+    public String getDepartamento() {
+        return departamento;
     }
 
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getDistrito() {
+        return distrito;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setDistrito(String distrito) {
+        this.distrito = distrito;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Matricula getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(Matricula matricula) {
+        this.matricula = matricula;
     }
 }

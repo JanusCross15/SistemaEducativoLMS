@@ -17,35 +17,42 @@ public class CursoController {
     private CursoRepository cursoRepository;
 
     // LISTAR
+
     @GetMapping
     public List<Curso> listarCursos() {
         return cursoRepository.findAll();
     }
 
     // GUARDAR
+
     @PostMapping
     public Curso guardarCurso(@RequestBody Curso curso) {
         return cursoRepository.save(curso);
     }
 
     // BUSCAR POR ID
+
     @GetMapping("/{id}")
-    public Curso obtenerCurso(@PathVariable Long id) {
+    public Curso obtenerCurso(@PathVariable Integer id) {
         return cursoRepository.findById(id).orElse(null);
     }
 
     // ACTUALIZAR
+
     @PutMapping("/{id}")
-    public Curso actualizarCurso(@PathVariable Long id,
-                                 @RequestBody Curso datos) {
+    public Curso actualizarCurso(
+            @PathVariable Integer id,
+            @RequestBody Curso datos) {
 
         Curso curso = cursoRepository.findById(id).orElse(null);
 
         if (curso != null) {
 
             curso.setNombre(datos.getNombre());
+
             curso.setDescripcion(datos.getDescripcion());
-            curso.setEstado(datos.getEstado());
+
+            curso.setDocente(datos.getDocente());
 
             return cursoRepository.save(curso);
         }
@@ -54,8 +61,9 @@ public class CursoController {
     }
 
     // ELIMINAR
+
     @DeleteMapping("/{id}")
-    public String eliminarCurso(@PathVariable Long id) {
+    public String eliminarCurso(@PathVariable Integer id) {
 
         cursoRepository.deleteById(id);
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import axios from "axios";
+
 import Sidebar from "../components/Sidebar";
 
 import {
@@ -10,16 +12,44 @@ import {
 } from "../services/estudianteService";
 
 function Estudiantes() {
+
+  // GENERAR CODIGO
+
+  const generarCodigo = () => {
+
+    const numero = Math.floor(
+      100000 + Math.random() * 900000
+    );
+
+    return `SF${numero}`;
+  };
+
   const [estudiantes, setEstudiantes] = useState([]);
 
+  const [matriculas, setMatriculas] = useState([]);
+
   const [formulario, setFormulario] = useState({
-    codigoEstudiante: "",
+
+    codigoEstudiante: generarCodigo(),
+
+    apellidoPaterno: "",
+    apellidoMaterno: "",
     nombres: "",
-    apellidos: "",
+
     fechaNacimiento: "",
-    grado: "",
-    seccion: "",
-    estado: "Activo",
+
+    provincia: "",
+    departamento: "",
+    distrito: "",
+
+    sexo: "",
+    edad: "",
+    direccion: "",
+
+    matricula: {
+      idMatricula: ""
+    }
+
   });
 
   const [editando, setEditando] = useState(false);
@@ -27,28 +57,72 @@ function Estudiantes() {
   const [idEditar, setIdEditar] = useState(null);
 
   useEffect(() => {
+
     cargarEstudiantes();
+
+    cargarMatriculas();
+
   }, []);
 
+  // LISTAR ESTUDIANTES
+
   const cargarEstudiantes = async () => {
+
     const response = await listarEstudiantes();
 
     setEstudiantes(response.data);
   };
 
-  const handleChange = (e) => {
-    setFormulario({
-      ...formulario,
-      [e.target.name]: e.target.value,
-    });
+  // LISTAR MATRICULAS
+
+  const cargarMatriculas = async () => {
+
+    const response = await axios.get(
+      "http://localhost:8081/api/matriculas"
+    );
+
+    setMatriculas(response.data);
   };
 
+  // INPUTS
+
+  const handleChange = (e) => {
+
+    const { name, value } = e.target;
+
+    if (name === "idMatricula") {
+
+      setFormulario({
+        ...formulario,
+        matricula: {
+          idMatricula: value
+        }
+      });
+
+    } else {
+
+      setFormulario({
+        ...formulario,
+        [name]: value,
+      });
+    }
+  };
+
+  // GUARDAR
+
   const guardar = async (e) => {
+
     e.preventDefault();
 
     if (editando) {
-      await actualizarEstudiante(idEditar, formulario);
+
+      await actualizarEstudiante(
+        idEditar,
+        formulario
+      );
+
     } else {
+
       await guardarEstudiante(formulario);
     }
 
@@ -57,31 +131,97 @@ function Estudiantes() {
     cargarEstudiantes();
   };
 
+  // EDITAR
+
   const editar = (estudiante) => {
-    setFormulario(estudiante);
+
+    setFormulario({
+
+      codigoEstudiante:
+        estudiante.codigoEstudiante,
+
+      apellidoPaterno:
+        estudiante.apellidoPaterno,
+
+      apellidoMaterno:
+        estudiante.apellidoMaterno,
+
+      nombres:
+        estudiante.nombres,
+
+      fechaNacimiento:
+        estudiante.fechaNacimiento,
+
+      provincia:
+        estudiante.provincia,
+
+      departamento:
+        estudiante.departamento,
+
+      distrito:
+        estudiante.distrito,
+
+      sexo:
+        estudiante.sexo,
+
+      edad:
+        estudiante.edad,
+
+      direccion:
+        estudiante.direccion,
+
+      matricula: {
+        idMatricula:
+          estudiante.matricula?.idMatricula || ""
+      }
+
+    });
 
     setEditando(true);
 
     setIdEditar(estudiante.idEstudiante);
   };
 
+  // ELIMINAR
+
   const eliminar = async (id) => {
-    if (window.confirm("¿Deseas eliminar este estudiante?")) {
+
+    if (window.confirm(
+      "¿Eliminar estudiante?"
+    )) {
+
       await eliminarEstudiante(id);
 
       cargarEstudiantes();
     }
   };
 
+  // LIMPIAR
+
   const limpiarFormulario = () => {
+
     setFormulario({
-      codigoEstudiante: "",
+
+      codigoEstudiante: generarCodigo(),
+
+      apellidoPaterno: "",
+      apellidoMaterno: "",
       nombres: "",
-      apellidos: "",
+
       fechaNacimiento: "",
-      grado: "",
-      seccion: "",
-      estado: "Activo",
+
+      provincia: "",
+      departamento: "",
+      distrito: "",
+
+      sexo: "",
+      edad: "",
+      direccion: "",
+
+      matricula: {
+        idMatricula: ""
+      }
+
     });
 
     setEditando(false);
@@ -90,6 +230,7 @@ function Estudiantes() {
   };
 
   return (
+
     <div
       style={{
         display: "flex",
@@ -97,6 +238,7 @@ function Estudiantes() {
         minHeight: "100vh",
       }}
     >
+
       <Sidebar />
 
       <div
@@ -106,27 +248,38 @@ function Estudiantes() {
           padding: "30px",
         }}
       >
+
         <div className="card shadow-lg border-0">
+
           <div className="card-header bg-primary text-white">
-            <h3 className="mb-0">Gestión de Estudiantes</h3>
+            <h3 className="mb-0">
+              Gestión de Estudiantes
+            </h3>
           </div>
 
           <div className="card-body">
+
             <form onSubmit={guardar}>
+
               <div className="row">
-                <div className="col-md-6 mb-3">
+
+                {/* CODIGO */}
+
+                <div className="col-md-4 mb-3">
+
                   <input
                     type="text"
-                    name="codigoEstudiante"
                     className="form-control"
-                    placeholder="Código"
                     value={formulario.codigoEstudiante}
-                    onChange={handleChange}
-                    required
+                    readOnly
                   />
+
                 </div>
 
-                <div className="col-md-6 mb-3">
+                {/* NOMBRES */}
+
+                <div className="col-md-4 mb-3">
+
                   <input
                     type="text"
                     name="nombres"
@@ -136,21 +289,45 @@ function Estudiantes() {
                     onChange={handleChange}
                     required
                   />
+
                 </div>
 
-                <div className="col-md-6 mb-3">
+                {/* APELLIDO PATERNO */}
+
+                <div className="col-md-4 mb-3">
+
                   <input
                     type="text"
-                    name="apellidos"
+                    name="apellidoPaterno"
                     className="form-control"
-                    placeholder="Apellidos"
-                    value={formulario.apellidos}
+                    placeholder="Apellido paterno"
+                    value={formulario.apellidoPaterno}
                     onChange={handleChange}
                     required
                   />
+
                 </div>
 
-                <div className="col-md-6 mb-3">
+                {/* APELLIDO MATERNO */}
+
+                <div className="col-md-4 mb-3">
+
+                  <input
+                    type="text"
+                    name="apellidoMaterno"
+                    className="form-control"
+                    placeholder="Apellido materno"
+                    value={formulario.apellidoMaterno}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+                {/* FECHA */}
+
+                <div className="col-md-4 mb-3">
+
                   <input
                     type="date"
                     name="fechaNacimiento"
@@ -159,53 +336,168 @@ function Estudiantes() {
                     onChange={handleChange}
                     required
                   />
+
                 </div>
 
+                {/* EDAD */}
+
                 <div className="col-md-4 mb-3">
+
                   <input
-                    type="text"
-                    name="grado"
+                    type="number"
+                    name="edad"
                     className="form-control"
-                    placeholder="Grado"
-                    value={formulario.grado}
+                    placeholder="Edad"
+                    value={formulario.edad}
                     onChange={handleChange}
                     required
                   />
+
                 </div>
 
-                <div className="col-md-4 mb-3">
-                  <input
-                    type="text"
-                    name="seccion"
-                    className="form-control"
-                    placeholder="Sección"
-                    value={formulario.seccion}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+                {/* SEXO */}
 
                 <div className="col-md-4 mb-3">
+
                   <select
-                    name="estado"
-                    className="form-control"
-                    value={formulario.estado}
+                    name="sexo"
+                    className="form-select"
+                    value={formulario.sexo}
                     onChange={handleChange}
+                    required
                   >
-                    <option value="Activo">Activo</option>
 
-                    <option value="Inactivo">Inactivo</option>
+                    <option value="">
+                      Seleccione sexo
+                    </option>
+
+                    <option value="Masculino">
+                      Masculino
+                    </option>
+
+                    <option value="Femenino">
+                      Femenino
+                    </option>
+
                   </select>
+
                 </div>
+
+                {/* PROVINCIA */}
+
+                <div className="col-md-4 mb-3">
+
+                  <input
+                    type="text"
+                    name="provincia"
+                    className="form-control"
+                    placeholder="Provincia"
+                    value={formulario.provincia}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+                {/* DEPARTAMENTO */}
+
+                <div className="col-md-4 mb-3">
+
+                  <input
+                    type="text"
+                    name="departamento"
+                    className="form-control"
+                    placeholder="Departamento"
+                    value={formulario.departamento}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+                {/* DISTRITO */}
+
+                <div className="col-md-4 mb-3">
+
+                  <input
+                    type="text"
+                    name="distrito"
+                    className="form-control"
+                    placeholder="Distrito"
+                    value={formulario.distrito}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+                {/* DIRECCION */}
+
+                <div className="col-md-6 mb-3">
+
+                  <input
+                    type="text"
+                    name="direccion"
+                    className="form-control"
+                    placeholder="Dirección"
+                    value={formulario.direccion}
+                    onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+                {/* MATRICULA */}
+
+                <div className="col-md-6 mb-3">
+
+                  <select
+                    name="idMatricula"
+                    className="form-select"
+                    value={
+                      formulario.matricula.idMatricula
+                    }
+                    onChange={handleChange}
+                    required
+                  >
+
+                    <option value="">
+                      Seleccione matrícula
+                    </option>
+
+                    {matriculas.map((m) => (
+
+                      <option
+                        key={m.idMatricula}
+                        value={m.idMatricula}
+                      >
+
+                        {m.nivel} - {m.grado} - {m.seccion}
+
+                      </option>
+
+                    ))}
+
+                  </select>
+
+                </div>
+
               </div>
 
+              {/* BOTONES */}
+
               <button
-                type="submit"
                 className={`btn ${
-                  editando ? "btn-warning" : "btn-success"
+                  editando
+                    ? "btn-warning"
+                    : "btn-success"
                 }`}
               >
-                {editando ? "Actualizar" : "Guardar"}
+
+                {editando
+                  ? "Actualizar"
+                  : "Guardar"}
+
               </button>
 
               <button
@@ -215,39 +507,74 @@ function Estudiantes() {
               >
                 Limpiar
               </button>
+
             </form>
 
             <hr />
 
+            {/* TABLA */}
+
             <table className="table table-hover">
+
               <thead className="table-dark">
+
                 <tr>
+
                   <th>ID</th>
                   <th>Código</th>
-                  <th>Nombres</th>
-                  <th>Apellidos</th>
-                  <th>Grado</th>
-                  <th>Sección</th>
-                  <th>Estado</th>
+                  <th>Nombre Completo</th>
+                  <th>Sexo</th>
+                  <th>Edad</th>
+                  <th>Matrícula</th>
                   <th>Acciones</th>
+
                 </tr>
+
               </thead>
 
               <tbody>
+
                 {estudiantes.map((estudiante) => (
+
                   <tr key={estudiante.idEstudiante}>
-                    <td>{estudiante.idEstudiante}</td>
-                    <td>{estudiante.codigoEstudiante}</td>
-                    <td>{estudiante.nombres}</td>
-                    <td>{estudiante.apellidos}</td>
-                    <td>{estudiante.grado}</td>
-                    <td>{estudiante.seccion}</td>
-                    <td>{estudiante.estado}</td>
 
                     <td>
+                      {estudiante.idEstudiante}
+                    </td>
+
+                    <td>
+                      {estudiante.codigoEstudiante}
+                    </td>
+
+                    <td>
+
+                      {estudiante.nombres} {" "}
+                      {estudiante.apellidoPaterno} {" "}
+                      {estudiante.apellidoMaterno}
+
+                    </td>
+
+                    <td>{estudiante.sexo}</td>
+
+                    <td>{estudiante.edad}</td>
+
+                    <td>
+
+                      {estudiante.matricula?.nivel}
+                      {" - "}
+                      {estudiante.matricula?.grado}
+                      {" "}
+                      {estudiante.matricula?.seccion}
+
+                    </td>
+
+                    <td>
+
                       <button
                         className="btn btn-warning btn-sm me-2"
-                        onClick={() => editar(estudiante)}
+                        onClick={() =>
+                          editar(estudiante)
+                        }
                       >
                         Editar
                       </button>
@@ -255,19 +582,30 @@ function Estudiantes() {
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() =>
-                          eliminar(estudiante.idEstudiante)
+                          eliminar(
+                            estudiante.idEstudiante
+                          )
                         }
                       >
                         Eliminar
                       </button>
+
                     </td>
+
                   </tr>
+
                 ))}
+
               </tbody>
+
             </table>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }

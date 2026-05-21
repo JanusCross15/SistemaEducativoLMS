@@ -34,23 +34,23 @@ public class DashboardController {
         Map<String, Long> resumen = new HashMap<>();
 
         resumen.put(
-            "estudiantes",
-            estudianteRepository.count()
+                "estudiantes",
+                estudianteRepository.count()
         );
 
         resumen.put(
-            "docentes",
-            docenteRepository.count()
+                "docentes",
+                docenteRepository.count()
         );
 
         resumen.put(
-            "cursos",
-            cursoRepository.count()
+                "cursos",
+                cursoRepository.count()
         );
 
         resumen.put(
-            "matriculas",
-            matriculaRepository.count()
+                "matriculas",
+                matriculaRepository.count()
         );
 
         return resumen;

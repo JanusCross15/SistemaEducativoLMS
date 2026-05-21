@@ -9,19 +9,19 @@ public class Matricula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_matricula")
     private Integer idMatricula;
 
-    @Column(name = "id_estudiante")
-    private Integer idEstudiante;
+    private String nivel;
+    private String grado;
+    private String seccion;
+    private String dni;
+    private String celular;
 
-    @Column(name = "fecha_matricula")
     private LocalDate fechaMatricula;
 
-    @Column(name = "anio_escolar")
-    private Integer anioEscolar;
-
-    private String estado;
+    public Matricula() {
+        this.fechaMatricula = LocalDate.now();
+    }
 
     public Integer getIdMatricula() {
         return idMatricula;
@@ -31,12 +31,44 @@ public class Matricula {
         this.idMatricula = idMatricula;
     }
 
-    public Integer getIdEstudiante() {
-        return idEstudiante;
+    public String getNivel() {
+        return nivel;
     }
 
-    public void setIdEstudiante(Integer idEstudiante) {
-        this.idEstudiante = idEstudiante;
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public String getGrado() {
+        return grado;
+    }
+
+    public void setGrado(String grado) {
+        this.grado = grado;
+    }
+
+    public String getSeccion() {
+        return seccion;
+    }
+
+    public void setSeccion(String seccion) {
+        this.seccion = seccion;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     public LocalDate getFechaMatricula() {
@@ -45,21 +77,5 @@ public class Matricula {
 
     public void setFechaMatricula(LocalDate fechaMatricula) {
         this.fechaMatricula = fechaMatricula;
-    }
-
-    public Integer getAnioEscolar() {
-        return anioEscolar;
-    }
-
-    public void setAnioEscolar(Integer anioEscolar) {
-        this.anioEscolar = anioEscolar;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 }

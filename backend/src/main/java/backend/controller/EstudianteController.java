@@ -2,7 +2,6 @@ package backend.controller;
 
 import backend.model.Estudiante;
 import backend.repository.EstudianteRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,60 +9,50 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/estudiantes")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin("*")
 public class EstudianteController {
 
     @Autowired
     private EstudianteRepository estudianteRepository;
 
-    // LISTAR
     @GetMapping
     public List<Estudiante> listarEstudiantes() {
         return estudianteRepository.findAll();
     }
 
-    // GUARDAR
     @PostMapping
     public Estudiante guardarEstudiante(@RequestBody Estudiante estudiante) {
         return estudianteRepository.save(estudiante);
     }
 
-    // BUSCAR POR ID
-    @GetMapping("/{id}")
-    public Estudiante obtenerEstudiante(@PathVariable Long id) {
-        return estudianteRepository.findById(id).orElse(null);
-    }
-
-    // ACTUALIZAR
     @PutMapping("/{id}")
-    public Estudiante actualizarEstudiante(
-            @PathVariable Long id,
-            @RequestBody Estudiante datos) {
+    public Estudiante actualizarEstudiante(@PathVariable Integer id,
+                                           @RequestBody Estudiante estudianteActualizado) {
 
         Estudiante estudiante = estudianteRepository.findById(id).orElse(null);
 
-        if (estudiante != null) {
-
-            estudiante.setCodigoEstudiante(datos.getCodigoEstudiante());
-            estudiante.setNombres(datos.getNombres());
-            estudiante.setApellidos(datos.getApellidos());
-            estudiante.setFechaNacimiento(datos.getFechaNacimiento());
-            estudiante.setGrado(datos.getGrado());
-            estudiante.setSeccion(datos.getSeccion());
-            estudiante.setEstado(datos.getEstado());
-
-            return estudianteRepository.save(estudiante);
+        if (estudiante == null) {
+            return null;
         }
 
-        return null;
+        estudiante.setCodigoEstudiante(estudianteActualizado.getCodigoEstudiante());
+        estudiante.setApellidoPaterno(estudianteActualizado.getApellidoPaterno());
+        estudiante.setApellidoMaterno(estudianteActualizado.getApellidoMaterno());
+        estudiante.setNombres(estudianteActualizado.getNombres());
+        estudiante.setFechaNacimiento(estudianteActualizado.getFechaNacimiento());
+        estudiante.setProvincia(estudianteActualizado.getProvincia());
+        estudiante.setDepartamento(estudianteActualizado.getDepartamento());
+        estudiante.setDistrito(estudianteActualizado.getDistrito());
+        estudiante.setSexo(estudianteActualizado.getSexo());
+        estudiante.setEdad(estudianteActualizado.getEdad());
+        estudiante.setDireccion(estudianteActualizado.getDireccion());
+        estudiante.setMatricula(estudianteActualizado.getMatricula());
+
+        return estudianteRepository.save(estudiante);
     }
 
-    // ELIMINAR
     @DeleteMapping("/{id}")
-    public String eliminarEstudiante(@PathVariable Long id) {
-
+    public void eliminarEstudiante(@PathVariable Integer id) {
         estudianteRepository.deleteById(id);
-
-        return "Estudiante eliminado correctamente";
     }
 }
