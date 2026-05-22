@@ -1,3 +1,11 @@
+CREATE TABLE usuarios (
+    id_usuario SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    correo VARCHAR(100) UNIQUE,
+    password VARCHAR(100),
+    rol VARCHAR(20),
+);
+
 CREATE TABLE matriculas (
     id_matricula SERIAL PRIMARY KEY,
     nivel VARCHAR(50),
@@ -77,7 +85,24 @@ CREATE TABLE cursos (
     REFERENCES docentes(id_docente)
 );
 
+CREATE TABLE usuarios_padre (
 
+    id_usuario SERIAL PRIMARY KEY,
+
+    nombres VARCHAR(100),
+
+    apellidos VARCHAR(100),
+
+    dni VARCHAR(20),
+
+    correo VARCHAR(100) UNIQUE,
+
+    password VARCHAR(255),
+
+	telefono VARCHAR(20),
+	
+	estado VARCHAR(20)
+);
 
 
 
