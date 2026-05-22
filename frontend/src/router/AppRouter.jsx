@@ -8,64 +8,36 @@ import Docentes from "../pages/Docentes";
 import Matriculas from "../pages/Matriculas";
 import Padres from "../pages/Padres";
 import GenerarMatricula from "../pages/GenerarMatricula";
+import RegisterPadre from "../pages/RegisterPadre";
+import DashboardPadre from "../pages/DashboardPadre";
 function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
 
-    return (
+        <Route path="/dashboard" element={<Dashboard />} />
 
-        <BrowserRouter>
+        <Route path="/dashboard" element={<Dashboard />} />
 
-            <Routes>
+        <Route path="/estudiantes" element={<Estudiantes />} />
 
-                <Route
-                    path="/"
-                    element={<Login />}
-                />
+        <Route path="/cursos" element={<Cursos />} />
 
-                <Route 
-                    path="/dashboard" 
-                    element={<Dashboard />} 
-                />
+        <Route path="/docentes" element={<Docentes />} />
 
-                <Route
-                    path="/dashboard"
-                    element={<Dashboard />}
-                />
+        <Route path="/matriculas" element={<Matriculas />} />
 
-                <Route 
-                    path="/estudiantes" 
-                    element={<Estudiantes />} 
-                />
+        <Route path="/padres" element={<Padres />} />
 
-                <Route 
-                path="/cursos" 
-                    element={<Cursos />} 
-                />
-                
-                <Route 
-                    path="/docentes" 
-                    element={<Docentes />} 
-                />
+        <Route path="/generar-matricula" element={<GenerarMatricula />} />
 
-                <Route 
-                    path="/matriculas" 
-                    element={<Matriculas />} 
-                />
+        <Route path="/register-padre" element={<RegisterPadre />} />
 
-                <Route 
-                    path="/padres" 
-                    element={<Padres />} 
-                />
-
-                <Route 
-                    path="/generar-matricula" 
-                    element={<GenerarMatricula />} 
-                />
-
-            </Routes>
-
-        </BrowserRouter>
-
-    );
+        <Route path="/dashboard-padre" element={<DashboardPadre />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default AppRouter;

@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { login } from "../services/authService";
+
+import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 
-import { FaEye, FaEyeSlash, FaUserGraduate } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUsers } from "react-icons/fa";
 
 import logoColegio from "../assets/IconColegio.ico";
 
@@ -10,71 +12,79 @@ import "./Login.css";
 
 import Swal from "sweetalert2";
 
-function Login() {
+function RegisterPadre() {
   const navigate = useNavigate();
-
-  const [correo, setCorreo] = useState("");
-  const [password, setPassword] = useState("");
 
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
+  const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
+
   const [error, setError] = useState("");
 
-  const iniciarSesion = async (e) => {
+  const [form, setForm] = useState({
+    nombre: "",
+    correo: "",
+    password: "",
+    confirmarPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const registrar = async (e) => {
     e.preventDefault();
 
     setError("");
 
+    if (form.password !== form.confirmarPassword) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
+
     try {
-      const response = await login({
-        correo,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8081/api/register-padre",
+        {
+          nombre: form.nombre,
+          correo: form.correo,
+          password: form.password,
+        },
+      );
 
       if (response.data.success) {
         localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
 
         await Swal.fire({
-          title: "¡Bienvenido!",
+          title: "¡Cuenta creada!",
 
           html: `
-      <div style="font-size:16px;">
-        Bienvenido a <b>C.E.P. LA SAGRADA FAMILIA</b><br><br>
-        Señor(a): <b>${response.data.usuario.nombre}</b>
-      </div>
+        <div style="font-size:16px;">
+            Cuenta creada correctamente.<br><br>
+            Ahora inicia sesión.
+        </div>
     `,
 
           icon: "success",
 
-          confirmButtonText: "Ingresar",
+          confirmButtonText: "Ir al Login",
 
           confirmButtonColor: "#7f1d1d",
 
           background: "#ffffff",
 
           color: "#333",
-
-          customClass: {
-            popup: "rounded-modal",
-          },
         });
 
-        if (response.data.usuario.rol === "PADRE") {
-          navigate("/dashboard-padre");
-        } else {
-          navigate("/dashboard");
-        }
+        navigate("/");
       } else {
-        setError("Correo o contraseña incorrectos");
-
-        setCorreo("");
-        setPassword("");
+        setError(response.data.message);
       }
     } catch (error) {
       setError("Error del servidor");
-
-      setCorreo("");
-      setPassword("");
     }
   };
 
@@ -104,23 +114,41 @@ function Login() {
 
       <div className="login-right">
         <div className="login-box">
+          {/* ICONO */}
+
           <div className="icono-login">
-            <FaUserGraduate />
+            <FaUsers />
           </div>
 
-          <h1 className="bienvenido">Bienvenido</h1>
+          {/* TITULO */}
 
-          <p className="subtitulo">Inicia sesión para continuar</p>
+          <h1 className="bienvenido">Crear Cuenta</h1>
 
-          <form onSubmit={iniciarSesion}>
+          <p className="subtitulo">Registro de Padre o madre de Familia</p>
+
+          <form onSubmit={registrar}>
+            {/* NOMBRE */}
+
+            <div className="input-group-custom">
+              <input
+                type="text"
+                name="nombre"
+                placeholder="Nombre completo"
+                value={form.nombre}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
             {/* CORREO */}
 
             <div className="input-group-custom">
               <input
                 type="email"
+                name="correo"
                 placeholder="Correo electrónico"
-                value={correo}
-                onChange={(e) => setCorreo(e.target.value)}
+                value={form.correo}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -130,9 +158,10 @@ function Login() {
             <div className="input-group-custom password-container">
               <input
                 type={mostrarPassword ? "text" : "password"}
+                name="password"
                 placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={form.password}
+                onChange={handleChange}
                 required
               />
 
@@ -144,6 +173,26 @@ function Login() {
               </span>
             </div>
 
+            {/* CONFIRMAR PASSWORD */}
+
+            <div className="input-group-custom password-container">
+              <input
+                type={mostrarConfirmar ? "text" : "password"}
+                name="confirmarPassword"
+                placeholder="Confirmar contraseña"
+                value={form.confirmarPassword}
+                onChange={handleChange}
+                required
+              />
+
+              <span
+                className="eye-icon"
+                onClick={() => setMostrarConfirmar(!mostrarConfirmar)}
+              >
+                {mostrarConfirmar ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+
             {/* ERROR */}
 
             {error && <div className="error-message">{error}</div>}
@@ -151,19 +200,19 @@ function Login() {
             {/* OPCIONES */}
 
             <div className="options">
-              <div className="mostrar-password">👁 Mostrar contraseña</div>
-
-              <a href="#">¿Olvidaste tu contraseña?</a>
+              <div className="mostrar-password">
+                👨‍👩‍👦 Registro seguro para padres
+              </div>
             </div>
 
             {/* BOTON */}
 
             <button type="submit" className="btn-login">
-              Iniciar Sesión
+              Crear Cuenta
             </button>
           </form>
 
-          {/* REGISTRO */}
+          {/* LOGIN */}
 
           <div
             style={{
@@ -171,17 +220,17 @@ function Login() {
               textAlign: "center",
             }}
           >
-            <span style={{ color: "gray" }}>¿No tienes cuenta? </span>
+            <span style={{ color: "gray" }}>¿Ya tienes cuenta? </span>
 
             <span
-              onClick={() => navigate("/register-padre")}
+              onClick={() => navigate("/")}
               style={{
                 color: "#7f1d1d",
                 fontWeight: "bold",
                 cursor: "pointer",
               }}
             >
-              Regístrate aquí
+              Inicia sesión
             </span>
           </div>
 
@@ -194,4 +243,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default RegisterPadre;

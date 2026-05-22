@@ -37,8 +37,7 @@ public class LoginController {
 
         Map<String, Object> respuesta = new HashMap<>();
 
-        Optional<Usuario> usuarioEncontrado =
-                usuarioRepository.findByCorreo(datos.getCorreo());
+        Optional<Usuario> usuarioEncontrado = usuarioRepository.findByCorreo(datos.getCorreo());
 
         // VALIDAR SI EXISTE
         if (usuarioEncontrado.isEmpty()) {
@@ -64,6 +63,45 @@ public class LoginController {
         respuesta.put("success", true);
         respuesta.put("message", "Login correcto");
         respuesta.put("usuario", usuario);
+
+        return respuesta;
+    }
+
+    @PostMapping("/register-padre")
+    public Map<String, Object> registerPadre(
+            @RequestBody Usuario usuario) {
+
+        Map<String, Object> respuesta = new HashMap<>();
+
+        Optional<Usuario> existe = usuarioRepository.findByCorreo(
+                usuario.getCorreo());
+
+        if (existe.isPresent()) {
+
+            respuesta.put(
+                    "success",
+                    false);
+
+            respuesta.put(
+                    "message",
+                    "El correo ya existe");
+
+            return respuesta;
+        }
+
+        usuario.setRol("PADRE");
+
+        usuario.setEstado("ACTIVO");
+
+        Usuario nuevo = usuarioRepository.save(usuario);
+
+        respuesta.put(
+                "success",
+                true);
+
+        respuesta.put(
+                "usuario",
+                nuevo);
 
         return respuesta;
     }
