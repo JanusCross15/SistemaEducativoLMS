@@ -23,10 +23,6 @@ public class Padre {
 
     private String tipo;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estudiante")
-    private Estudiante estudiante;
-
     // GETTERS Y SETTERS
 
     public Integer getIdPadre() {
@@ -83,13 +79,5 @@ public class Padre {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public Estudiante getEstudiante() {
-        return estudiante;
-    }
-
-    public void setEstudiante(Estudiante estudiante) {
-        this.estudiante = estudiante;
     }
 }

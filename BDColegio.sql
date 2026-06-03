@@ -4,6 +4,7 @@ CREATE TABLE usuarios (
     correo VARCHAR(100) UNIQUE,
     password VARCHAR(100),
     rol VARCHAR(20),
+    estado VARCHAR(20) DEFAULT 'ACTIVO'
 );
 
 CREATE TABLE matriculas (
@@ -13,7 +14,8 @@ CREATE TABLE matriculas (
     seccion VARCHAR(10),
     dni VARCHAR(20),
     celular VARCHAR(20),
-    fecha_matricula DATE DEFAULT CURRENT_DATE
+    fecha_matricula DATE DEFAULT CURRENT_DATE,
+    estado VARCHAR(20) DEFAULT 'ACTIVO'
 );
 
 CREATE TABLE estudiantes (
@@ -33,7 +35,9 @@ CREATE TABLE estudiantes (
     edad INT,
     direccion VARCHAR(200),
 
-    id_matricula INT,
+    estado VARCHAR(20) DEFAULT 'ACTIVO',
+
+    id_matricula INT
 
     CONSTRAINT fk_matricula
     FOREIGN KEY (id_matricula)
@@ -45,20 +49,18 @@ CREATE TABLE padres (
     id_padre SERIAL PRIMARY KEY,
 
     nombres VARCHAR(100),
+
     apellidos VARCHAR(100),
 
-    dni VARCHAR(20),
+    dni VARCHAR(20) UNIQUE,
+
     telefono VARCHAR(20),
 
     direccion VARCHAR(200),
 
     tipo VARCHAR(20),
 
-    id_estudiante INT,
-
-    CONSTRAINT fk_estudiante_padre
-    FOREIGN KEY (id_estudiante)
-    REFERENCES estudiantes(id_estudiante)
+    estado VARCHAR(20) DEFAULT 'ACTIVO'
 
 );
 
@@ -69,40 +71,59 @@ CREATE TABLE docentes (
     especialidad VARCHAR(100),
     correo VARCHAR(100),
     telefono VARCHAR(20),
-    dni VARCHAR(20)
+    dni VARCHAR(20),
+    estado VARCHAR(20) DEFAULT 'ACTIVO'
 );
 
 CREATE TABLE cursos (
+
     id_curso SERIAL PRIMARY KEY,
 
     nombre VARCHAR(100),
     descripcion VARCHAR(200),
 
-    id_docente INT,
+    estado VARCHAR(20) DEFAULT 'ACTIVO'
 
-    CONSTRAINT fk_docente
-    FOREIGN KEY (id_docente)
-    REFERENCES docentes(id_docente)
 );
 
-CREATE TABLE usuarios_padre (
+CREATE TABLE padre_estudiante (
 
-    id_usuario SERIAL PRIMARY KEY,
+    id_padre_estudiante SERIAL PRIMARY KEY,
 
-    nombres VARCHAR(100),
+    id_padre INT NOT NULL,
 
-    apellidos VARCHAR(100),
+    id_estudiante INT NOT NULL,
 
-    dni VARCHAR(20),
+    CONSTRAINT fk_padre
+        FOREIGN KEY (id_padre)
+        REFERENCES padres(id_padre),
 
-    correo VARCHAR(100) UNIQUE,
+    CONSTRAINT fk_estudiante
+        FOREIGN KEY (id_estudiante)
+        REFERENCES estudiantes(id_estudiante)
 
-    password VARCHAR(255),
-
-	telefono VARCHAR(20),
-	
-	estado VARCHAR(20)
 );
 
+CREATE TABLE solicitudes_matricula(
 
+    id_solicitud SERIAL PRIMARY KEY,
 
+    fecha_solicitud DATE DEFAULT CURRENT_DATE,
+
+    estado VARCHAR(20) DEFAULT 'PENDIENTE',
+
+    observacion VARCHAR(300),
+
+    id_padre INT,
+
+    id_estudiante INT,
+
+    CONSTRAINT fk_solicitud_padre
+    FOREIGN KEY(id_padre)
+    REFERENCES padres(id_padre),
+
+    CONSTRAINT fk_solicitud_estudiante
+    FOREIGN KEY(id_estudiante)
+    REFERENCES estudiantes(id_estudiante)
+
+);

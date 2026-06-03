@@ -1,0 +1,97 @@
+.dashboard-container {
+  display: flex;
+
+  min-height: 100vh;
+
+  background:
+  linear-gradient(
+      rgba(255,255,255,0.92),
+      rgba(255,255,255,0.92)
+  ),
+  url("../assets/IconColegio.ico");
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 350px;
+}
+
+.dashboard-title {
+  font-size: 34px;
+  font-weight: bold;
+
+  color: #8b0015;
+}
+
+.dashboard-subtitle {
+  color: #6b7280;
+}
+
+.welcome-card {
+  background: white;
+
+  padding: 12px 25px;
+
+  border-radius: 15px;
+
+  box-shadow:
+      0 10px 30px rgba(0,0,0,0.08);
+
+  font-weight: 600;
+}
+
+.card-dashboard {
+  border-radius: 20px;
+
+  padding: 25px;
+
+  color: white;
+
+  transition: 0.3s;
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+.card-dashboard:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+      0 15px 30px rgba(0,0,0,0.15);
+}
+
+.resumen-card {
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  border: none;
+
+  box-shadow:
+      0 10px 30px rgba(0,0,0,0.08);
+}
+
+.resumen-card .card-body {
+  padding: 30px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead {
+  background: #8b0015;
+  color: white;
+}
+
+.table th {
+  border: none;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.badge {
+  padding: 8px 12px;
+}

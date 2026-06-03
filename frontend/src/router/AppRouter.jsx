@@ -2,14 +2,31 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
+import DashboardPadre from "../pages/DashboardPadre";
+
 import Estudiantes from "../pages/Estudiantes";
 import Cursos from "../pages/Cursos";
 import Docentes from "../pages/Docentes";
 import Matriculas from "../pages/Matriculas";
 import Padres from "../pages/Padres";
+
 import GenerarMatricula from "../pages/GenerarMatricula";
 import RegisterPadre from "../pages/RegisterPadre";
-import DashboardPadre from "../pages/DashboardPadre";
+
+import Asignaciones from "../pages/Asignaciones";
+import Horarios from "../pages/Horarios";
+import Evaluaciones from "../pages/Evaluaciones";
+
+import Usuarios from "../pages/Usuarios";
+import VincularPadreHijo from "../pages/VincularPadreHijo";
+
+import Solicitudes from "../pages/SolicitudesMatricula";
+import Comunicados from "../pages/Comunicados";
+import Observaciones from "../pages/Observaciones";
+
+import ReportesPDF from "../pages/ReportePdf";
+import ReportesExcel from "../pages/ReporteExcel";
+
 function AppRouter() {
   return (
     <BrowserRouter>
@@ -17,24 +34,47 @@ function AppRouter() {
         <Route path="/" element={<Login />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
-
-        <Route path="/dashboard" element={<Dashboard />} />
-
-        <Route path="/estudiantes" element={<Estudiantes />} />
-
-        <Route path="/cursos" element={<Cursos />} />
-
-        <Route path="/docentes" element={<Docentes />} />
-
-        <Route path="/matriculas" element={<Matriculas />} />
-
-        <Route path="/padres" element={<Padres />} />
-
-        <Route path="/generar-matricula" element={<GenerarMatricula />} />
+        <Route path="/dashboard-padre" element={<DashboardPadre />} />
 
         <Route path="/register-padre" element={<RegisterPadre />} />
 
-        <Route path="/dashboard-padre" element={<DashboardPadre />} />
+        {/* Gestión Académica */}
+
+        <Route path="/cursos" element={<Cursos />} />
+        <Route path="/estudiantes" element={<Estudiantes />} />
+        <Route path="/docentes" element={<Docentes />} />
+        <Route path="/matriculas" element={<Matriculas />} />
+
+        {/* Gestión Escolar */}
+
+        <Route path="/asignaciones" element={<Asignaciones />} />
+        <Route path="/horarios" element={<Horarios />} />
+        <Route path="/evaluaciones" element={<Evaluaciones />} />
+
+        {/* Usuarios */}
+
+        <Route path="/padres" element={<Padres />} />
+        <Route path="/usuarios" element={<Usuarios />} />
+        <Route
+          path="/vincular-padre-hijo"
+          element={<VincularPadreHijo />}
+        />
+
+        {/* Procesos */}
+
+        <Route path="/solicitudes" element={<Solicitudes />} />
+        <Route path="/comunicados" element={<Comunicados />} />
+        <Route path="/observaciones" element={<Observaciones />} />
+
+        {/* Reportes */}
+
+        <Route path="/reportes-pdf" element={<ReportesPDF />} />
+        <Route path="/reportes-excel" element={<ReportesExcel />} />
+
+        <Route
+          path="/generar-matricula"
+          element={<GenerarMatricula />}
+        />
       </Routes>
     </BrowserRouter>
   );

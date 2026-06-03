@@ -17,10 +17,6 @@ public class Curso {
 
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "id_docente")
-    private Docente docente;
-
     // GETTERS Y SETTERS
 
     public Integer getIdCurso() {
@@ -45,13 +41,5 @@ public class Curso {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Docente getDocente() {
-        return docente;
-    }
-
-    public void setDocente(Docente docente) {
-        this.docente = docente;
     }
 }

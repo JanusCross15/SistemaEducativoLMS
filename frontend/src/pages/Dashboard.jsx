@@ -11,8 +11,9 @@ import { useEffect, useState } from "react";
 
 import { obtenerResumen } from "../services/dashboardService";
 
-function Dashboard() {
+import "./Dashboard.css";
 
+function Dashboard() {
   const [resumen, setResumen] = useState({
     estudiantes: 0,
     docentes: 0,
@@ -25,30 +26,17 @@ function Dashboard() {
   }, []);
 
   const cargarResumen = async () => {
-
     try {
-
       const response = await obtenerResumen();
 
       setResumen(response.data);
-
     } catch (error) {
-
       console.log(error);
     }
   };
 
   return (
-
-    <div
-      style={{
-        display: "flex",
-        background: "#f4f6f9",
-        minHeight: "100vh",
-        fontFamily: "Arial",
-      }}
-    >
-
+    <div className="dashboard-container">
       {/* SIDEBAR */}
 
       <Sidebar />
@@ -62,93 +50,58 @@ function Dashboard() {
           marginLeft: "270px",
         }}
       >
-
         {/* HEADER */}
 
         <div className="d-flex justify-content-between align-items-center mb-4">
-
           <div>
+            <h1 className="dashboard-title">Dashboard Administrativo</h1>
 
-            <h1
-              style={{
-                fontWeight: "bold",
-                color: "#1e293b",
-              }}
-            >
-              Dashboard Administrativo
-            </h1>
-
-            <p
-              style={{
-                color: "gray",
-              }}
-            >
+            <p className="dashboard-subtitle">
               Bienvenido al Sistema Educativo LMS
             </p>
-
           </div>
 
-          <div
-            style={{
-              background: "white",
-              padding: "10px 20px",
-              borderRadius: "15px",
-              boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
-            }}
-          >
-            👋 Admin
-          </div>
-
+          <div className="welcome-card">👋 Admin</div>
         </div>
 
         {/* TARJETAS */}
 
         <div className="row">
-
           <div className="col-md-3 mb-4">
-
             <CardDashboard
               titulo="Estudiantes"
               numero={resumen.estudiantes}
               color="#2563eb"
               icon={<FaUserGraduate />}
             />
-
           </div>
 
           <div className="col-md-3 mb-4">
-
             <CardDashboard
               titulo="Docentes"
               numero={resumen.docentes}
               color="#16a34a"
               icon={<FaChalkboardTeacher />}
             />
-
           </div>
 
           <div className="col-md-3 mb-4">
-
             <CardDashboard
               titulo="Cursos"
               numero={resumen.cursos}
               color="#f59e0b"
               icon={<FaBook />}
             />
-
           </div>
 
           <div className="col-md-3 mb-4">
-
             <CardDashboard
               titulo="Matrículas"
               numero={resumen.matriculas}
               color="#dc2626"
               icon={<FaClipboardList />}
             />
-
           </div>
-
         </div>
 
         {/* TABLA */}
@@ -159,9 +112,7 @@ function Dashboard() {
             borderRadius: "20px",
           }}
         >
-
           <div className="card-body">
-
             <h4
               className="mb-4"
               style={{
@@ -172,28 +123,22 @@ function Dashboard() {
             </h4>
 
             <table className="table table-hover">
-
               <thead>
-
                 <tr>
                   <th>Módulo</th>
                   <th>Cantidad</th>
                   <th>Estado</th>
                 </tr>
-
               </thead>
 
               <tbody>
-
                 <tr>
                   <td>Estudiantes</td>
 
                   <td>{resumen.estudiantes}</td>
 
                   <td>
-                    <span className="badge bg-success">
-                      Activo
-                    </span>
+                    <span className="badge bg-success">Activo</span>
                   </td>
                 </tr>
 
@@ -203,9 +148,7 @@ function Dashboard() {
                   <td>{resumen.docentes}</td>
 
                   <td>
-                    <span className="badge bg-success">
-                      Activo
-                    </span>
+                    <span className="badge bg-success">Activo</span>
                   </td>
                 </tr>
 
@@ -215,9 +158,7 @@ function Dashboard() {
                   <td>{resumen.cursos}</td>
 
                   <td>
-                    <span className="badge bg-success">
-                      Activo
-                    </span>
+                    <span className="badge bg-success">Activo</span>
                   </td>
                 </tr>
 
@@ -227,22 +168,14 @@ function Dashboard() {
                   <td>{resumen.matriculas}</td>
 
                   <td>
-                    <span className="badge bg-primary">
-                      Registradas
-                    </span>
+                    <span className="badge bg-primary">Registradas</span>
                   </td>
                 </tr>
-
               </tbody>
-
             </table>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }
@@ -250,23 +183,15 @@ function Dashboard() {
 /* COMPONENTE CARD */
 
 function CardDashboard({ titulo, numero, color, icon }) {
-
   return (
-
     <div
+      className="card-dashboard"
       style={{
         background: color,
-        borderRadius: "20px",
-        padding: "25px",
-        color: "white",
-        boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
       }}
     >
-
       <div className="d-flex justify-content-between align-items-center">
-
         <div>
-
           <h2
             style={{
               fontWeight: "bold",
@@ -276,7 +201,6 @@ function CardDashboard({ titulo, numero, color, icon }) {
           </h2>
 
           <h5>{titulo}</h5>
-
         </div>
 
         <div
@@ -287,9 +211,7 @@ function CardDashboard({ titulo, numero, color, icon }) {
         >
           {icon}
         </div>
-
       </div>
-
     </div>
   );
 }

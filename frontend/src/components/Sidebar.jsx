@@ -6,8 +6,18 @@ import {
   FaUsers,
   FaSignOutAlt,
   FaUserFriends,
-  FaFilePdf
+  FaFilePdf,
+  FaLink,
+  FaCalendarAlt,
+  FaTasks,
+  FaBullhorn,
+  FaComments,
+  FaFileExcel,
+  FaUserCog,
 } from "react-icons/fa";
+
+import "./Sidebar.css";
+import logoColegio from "../assets/IconColegio.ico";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,51 +25,15 @@ function Sidebar() {
   const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        width: "270px",
-        background: "#1f2937",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        position: "fixed",
-        left: 0,
-        top: 0,
-      }}
-    >
+    <div className="sidebar">
       {/* LOGO */}
 
-      <div
-        style={{
-          padding: "25px",
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
-          textAlign: "center",
-        }}
-      >
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
-          alt="logo"
-          width="80"
-        />
+      <div className="sidebar-header">
+        <img src={logoColegio} alt="Logo Colegio" className="sidebar-logo" />
 
-        <h3
-          style={{
-            marginTop: "15px",
-            fontWeight: "bold",
-          }}
-        >
-          LMS SYSTEM
-        </h3>
+        <h3>Colegio INEI 46</h3>
 
-        <p
-          style={{
-            color: "#cbd5e1",
-            fontSize: "14px",
-          }}
-        >
-          Panel Administrador
-        </p>
+        <p>LMS Académico</p>
       </div>
 
       {/* MENU */}
@@ -67,7 +41,8 @@ function Sidebar() {
       <div
         style={{
           flex: 1,
-          paddingTop: "20px",
+          overflowY: "auto",
+          paddingTop: "10px",
         }}
       >
         <MenuItem
@@ -76,10 +51,12 @@ function Sidebar() {
           onClick={() => navigate("/dashboard")}
         />
 
+        <MenuSection title="Gestión Académica" />
+
         <MenuItem
-          icon={<FaClipboardList />}
-          text="Matrículas"
-          onClick={() => navigate("/matriculas")}
+          icon={<FaBook />}
+          text="Cursos"
+          onClick={() => navigate("/cursos")}
         />
 
         <MenuItem
@@ -89,24 +66,93 @@ function Sidebar() {
         />
 
         <MenuItem
-          icon={<FaUserFriends />}
-          text="Padres"
-          onClick={() => navigate("/padres")}
-        />
-        <MenuItem
           icon={<FaChalkboardTeacher />}
           text="Docentes"
           onClick={() => navigate("/docentes")}
         />
 
         <MenuItem
-          icon={<FaBook />}
-          text="Cursos"
-          onClick={() => navigate("/cursos")}
+          icon={<FaClipboardList />}
+          text="Matrículas"
+          onClick={() => navigate("/matriculas")}
+        />
+
+        <MenuSection title="Gestión Escolar" />
+
+        <MenuItem
+          icon={<FaTasks />}
+          text="Asignaciones"
+          onClick={() => navigate("/asignaciones")}
         />
 
         <MenuItem
-          icon={<FaFilePdf  />}
+          icon={<FaCalendarAlt />}
+          text="Horarios"
+          onClick={() => navigate("/horarios")}
+        />
+
+        <MenuItem
+          icon={<FaClipboardList />}
+          text="Evaluaciones"
+          onClick={() => navigate("/evaluaciones")}
+        />
+
+        <MenuSection title="Usuarios" />
+
+        <MenuItem
+          icon={<FaUserFriends />}
+          text="Padres"
+          onClick={() => navigate("/padres")}
+        />
+
+        <MenuItem
+          icon={<FaUserCog />}
+          text="Usuarios"
+          onClick={() => navigate("/usuarios")}
+        />
+
+        <MenuItem
+          icon={<FaLink />}
+          text="Vincular Padre-Hijo"
+          onClick={() => navigate("/vincular-padre-hijo")}
+        />
+
+        <MenuSection title="Procesos" />
+
+        <MenuItem
+          icon={<FaClipboardList />}
+          text="Solicitudes de Matrícula"
+          onClick={() => navigate("/solicitudes")}
+        />
+
+        <MenuItem
+          icon={<FaBullhorn />}
+          text="Comunicados"
+          onClick={() => navigate("/comunicados")}
+        />
+
+        <MenuItem
+          icon={<FaComments />}
+          text="Observaciones"
+          onClick={() => navigate("/observaciones")}
+        />
+
+        <MenuSection title="Reportes" />
+
+        <MenuItem
+          icon={<FaFilePdf />}
+          text="Reportes PDF"
+          onClick={() => navigate("/reportes-pdf")}
+        />
+
+        <MenuItem
+          icon={<FaFileExcel />}
+          text="Reportes Excel"
+          onClick={() => navigate("/reportes-excel")}
+        />
+
+        <MenuItem
+          icon={<FaFilePdf />}
           text="Generar Matrícula"
           onClick={() => navigate("/generar-matricula")}
         />
@@ -127,7 +173,6 @@ function Sidebar() {
           }}
           onClick={() => {
             localStorage.removeItem("usuario");
-
             navigate("/");
           }}
         >
@@ -139,24 +184,13 @@ function Sidebar() {
   );
 }
 
-/* MENU ITEM */
+function MenuSection({ title }) {
+  return <div className="menu-section">{title}</div>;
+}
 
 function MenuItem({ icon, text, onClick }) {
   return (
-    <div
-      onClick={onClick}
-      style={{
-        padding: "15px 25px",
-        cursor: "pointer",
-        transition: "0.3s",
-        display: "flex",
-        alignItems: "center",
-        gap: "12px",
-        fontSize: "16px",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "#374151")}
-      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-    >
+    <div className="menu-item" onClick={onClick}>
       {icon}
       {text}
     </div>
