@@ -462,7 +462,7 @@ function DashboardDocente() {
             >
               Portal docente &nbsp;/&nbsp;{" "}
               <span style={{ color: "#115133", fontWeight: "600" }}>
-                Mis cursos
+                Mis cursos Ahora
               </span>
             </div>
 
