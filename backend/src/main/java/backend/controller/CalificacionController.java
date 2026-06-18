@@ -14,7 +14,7 @@ import java.util.List;
 public class CalificacionController {
 
     @Autowired
-    private CalificacionRepository calificacionRepository;
+    private CalificacionRepository calificacionRepository;  
 
     // LISTAR
     @GetMapping

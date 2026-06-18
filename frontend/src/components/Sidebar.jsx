@@ -21,20 +21,67 @@ import {
 import "./Sidebar.css";
 import logoColegio from "../assets/IconColegio.ico";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const footerRef = useRef(null);
 
   const [collapsed, setCollapsed] = useState(() => {
     return localStorage.getItem("sidebarCollapsed") === "true";
   });
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("sidebarCollapsed", collapsed);
   }, [collapsed]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuOpen && footerRef.current && !footerRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [userMenuOpen]);
+
+  const getUsuario = () => {
+    try {
+      return JSON.parse(localStorage.getItem("usuario")) || { nombre: "Usuario" };
+    } catch {
+      return { nombre: "Usuario" };
+    }
+  };
+
+  const usuario = getUsuario();
+  const nombreCorto = usuario.nombre ? usuario.nombre.trim().split(" ")[0] : "Usuario";
+
+  const esMujer = (nombre) => {
+    if (!nombre) return false;
+    const primerNombre = nombre.trim().split(" ")[0].toLowerCase();
+
+    const excepcionesFemeninas = ["isabel", "beatriz", "carmen", "raquel", "ines", "rosario", "pilar", "luz", "mercedes", "rocio", "miriam", "ruth"];
+    const excepcionesMasculinas = ["luca", "lucas", "marias", "josue", "misael"];
+
+    if (excepcionesFemeninas.includes(primerNombre)) return true;
+    if (excepcionesMasculinas.includes(primerNombre)) return false;
+
+    return primerNombre.endsWith("a");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("usuario");
+    navigate("/");
+  };
+
+  const handleVerPerfil = () => {
+    setUserMenuOpen(false);
+    navigate("/usuarios");
+  };
 
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
@@ -222,30 +269,76 @@ function Sidebar() {
 
       {/* FOOTER */}
 
-      <div
-        style={{
-          padding: "20px",
-          borderTop: "1px solid #e5e7eb",
-        }}
-      >
-        <button
-          className="btn w-100"
-          style={{
-            borderRadius: "12px",
-            background: "#7f1d1d",
-            color: "white",
-            border: "none",
-            fontWeight: "600",
-          }}
-          onClick={() => {
-            localStorage.removeItem("usuario");
-            navigate("/");
-          }}
+      <div className="sidebar-footer" ref={footerRef}>
+        <div
+          className={`user-profile-button ${userMenuOpen ? "open" : ""}`}
+          onClick={() => setUserMenuOpen((prev) => !prev)}
+          title={collapsed ? "Usuario" : "Abrir menú de usuario"}
         >
-          <FaUserCircle className="me-2" />
+          <div className="avatar-circle">
+            {esMujer(usuario.nombre) ? (
+              <svg viewBox="0 0 100 100" className="avatar-svg">
+                <path d="M30,35 C20,30 25,65 32,75 C35,65 30,45 35,35 Z" fill="#2b1a0a" />
+                <path d="M70,35 C80,30 75,65 68,75 C65,65 70,45 65,35 Z" fill="#2b1a0a" />
+                <circle cx="36" cy="46" r="4" fill="#f5c0a0" />
+                <circle cx="64" cy="46" r="4" fill="#f5c0a0" />
+                <path d="M37,36 Q37,26 50,26 Q63,26 63,36 L63,48 Q63,58 50,58 Q37,58 37,48 Z" fill="#fcd0b4" />
+                <ellipse cx="44" cy="41" rx="1.5" ry="2.5" fill="#333" />
+                <ellipse cx="56" cy="41" rx="1.5" ry="2.5" fill="#333" />
+                <path d="M41,39 Q44,37 46,39" fill="none" stroke="#333" strokeWidth="1" />
+                <path d="M54,39 Q56,37 59,39" fill="none" stroke="#333" strokeWidth="1" />
+                <path d="M49,44 Q51,46 49,47" fill="none" stroke="#e59d7a" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M46,51 Q50,55 54,51" fill="none" stroke="#b04040" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M36,36 Q50,20 64,36 Q64,26 50,22 Q36,26 36,36 Z" fill="#3d2512" />
+                <path d="M36,34 Q33,42 37,46 Q39,38 38,34 Z" fill="#3d2512" />
+                <path d="M64,34 Q67,42 63,46 Q61,38 62,34 Z" fill="#3d2512" />
+                <path d="M46,56 L54,56 L54,64 L46,64 Z" fill="#fcd0b4" />
+                <path d="M26,85 Q26,64 50,64 Q74,64 74,85 Z" fill="#a62649" />
+                <path d="M42,64 L50,74 L58,64 Z" fill="#fff" />
+                <path d="M45,64 L50,70 L55,64 Z" fill="#a62649" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 100 100" className="avatar-svg">
+                <path d="M36,36 C30,25 45,10 65,13 C75,15 72,30 68,36 Z" fill="#4a3728" />
+                <circle cx="37" cy="45" r="4" fill="#e0a080" />
+                <circle cx="37" cy="45" r="2" fill="#c88868" />
+                <circle cx="67" cy="44" r="4" fill="#e0a080" />
+                <path d="M67,42 A2,2 0 0,1 69,44 A2,2 0 0,1 67,46" fill="none" stroke="#c88868" strokeWidth="0.8" />
+                <path d="M38,36 Q38,26 52,26 Q66,26 66,36 L66,48 Q66,58 52,58 Q38,58 38,48 Z" fill="#f3be9f" />
+                <ellipse cx="44" cy="40" rx="1.5" ry="3" fill="#333" />
+                <ellipse cx="58" cy="40" rx="1.5" ry="3" fill="#333" />
+                <path d="M51,43 Q53,46 51,47" fill="none" stroke="#d59273" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M47,50 Q52,54 56,50" fill="none" stroke="#333" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M37,35 Q44,18 56,20 Q66,16 67,28 Q67,34 66,36 Q60,30 52,32 Q42,32 37,35 Z" fill="#4a3728" />
+                <path d="M37,35 Q35,42 38,44 Q40,38 39,35 Z" fill="#4a3728" />
+                <path d="M47,56 L57,56 L57,64 L47,64 Z" fill="#e0a080" />
+                <path d="M47,56 Q52,60 57,56" fill="none" stroke="#c88868" strokeWidth="1" />
+                <path d="M26,85 Q26,64 52,64 Q78,64 78,85 Z" fill="#2d8a4e" />
+                <path d="M44,64 Q52,72 60,64 Q52,67 44,64 Z" fill="#fff" />
+              </svg>
+            )}
+          </div>
 
-          {!collapsed && "Cerrar Sesión"}
-        </button>
+          {!collapsed && (
+            <div className="user-greeting">
+              <div className="user-hello">Hola,</div>
+              <div className="user-name">{nombreCorto}</div>
+            </div>
+          )}
+        </div>
+
+        {userMenuOpen && (
+          <div className={`user-menu ${collapsed ? "collapsed" : ""}`}>
+            <div className={`user-menu-item ${collapsed ? "icon-only" : ""}`} title={collapsed ? "Ver perfil" : undefined} onClick={handleVerPerfil}>
+              <FaUserCircle />
+              {!collapsed && <span>Ver perfil</span>}
+            </div>
+            <div className={`user-menu-item logout ${collapsed ? "icon-only" : ""}`} title={collapsed ? "Cerrar sesión" : undefined} onClick={handleLogout}>
+              <FaSignOutAlt />
+              {!collapsed && <span>Cerrar sesión</span>}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
