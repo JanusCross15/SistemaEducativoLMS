@@ -6,11 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PadreEstudianteRepository
-        extends JpaRepository<PadreEstudiante, Integer> {
+                extends JpaRepository<PadreEstudiante, Integer> {
 
-    List<PadreEstudiante> findByEstudiante_IdEstudiante(Integer idEstudiante);
+        List<PadreEstudiante> findByEstudiante_IdEstudiante(Integer idEstudiante);
 
-    boolean existsByPadre_IdPadreAndEstudiante_IdEstudiante(
-            Integer idPadre,
-            Integer idEstudiante);
+        boolean existsByPadre_IdPadreAndEstudiante_IdEstudiante(
+                        Integer idPadre,
+                        Integer idEstudiante);
+
+        List<PadreEstudiante> findByPadre_IdPadre(Integer idPadre);
 }

@@ -1,7 +1,11 @@
 package backend.controller;
 
 import backend.model.Padre;
+import backend.model.Estudiante;
+import backend.model.PadreEstudiante;
+
 import backend.repository.PadreRepository;
+import backend.repository.PadreEstudianteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +20,9 @@ public class PadreController {
     @Autowired
     private PadreRepository padreRepository;
 
+    @Autowired
+    private PadreEstudianteRepository padreEstudianteRepository;
+
     // LISTAR
 
     @GetMapping
@@ -24,12 +31,33 @@ public class PadreController {
         return padreRepository.findAll();
     }
 
+    // OBTENER HIJOS DEL PADRE SEGÚN EL USUARIO LOGUEADO
+
+    @GetMapping("/usuario/{idUsuario}/hijos")
+    public List<Estudiante> obtenerHijos(
+            @PathVariable Integer idUsuario) {
+
+        Padre padre =
+                padreRepository.findByUsuario_IdUsuario(
+                        idUsuario);
+
+        if (padre == null) {
+            return List.of();
+        }
+
+        return padreEstudianteRepository
+                .findByPadre_IdPadre(
+                        padre.getIdPadre())
+                .stream()
+                .map(PadreEstudiante::getEstudiante)
+                .toList();
+    }
+
     // GUARDAR
 
     @PostMapping
     public Padre guardarPadre(
-            @RequestBody Padre padre
-    ) {
+            @RequestBody Padre padre) {
 
         return padreRepository.save(padre);
     }
@@ -39,8 +67,7 @@ public class PadreController {
     @PutMapping("/{id}")
     public Padre actualizarPadre(
             @PathVariable Integer id,
-            @RequestBody Padre padreActualizado
-    ) {
+            @RequestBody Padre padreActualizado) {
 
         Padre padre =
                 padreRepository
@@ -52,28 +79,22 @@ public class PadreController {
         }
 
         padre.setNombres(
-                padreActualizado.getNombres()
-        );
+                padreActualizado.getNombres());
 
         padre.setApellidos(
-                padreActualizado.getApellidos()
-        );
+                padreActualizado.getApellidos());
 
         padre.setDni(
-                padreActualizado.getDni()
-        );
+                padreActualizado.getDni());
 
         padre.setTelefono(
-                padreActualizado.getTelefono()
-        );
+                padreActualizado.getTelefono());
 
         padre.setDireccion(
-                padreActualizado.getDireccion()
-        );
+                padreActualizado.getDireccion());
 
         padre.setTipo(
-                padreActualizado.getTipo()
-        );
+                padreActualizado.getTipo());
 
         return padreRepository.save(padre);
     }
@@ -82,8 +103,7 @@ public class PadreController {
 
     @DeleteMapping("/{id}")
     public void eliminarPadre(
-            @PathVariable Integer id
-    ) {
+            @PathVariable Integer id) {
 
         padreRepository.deleteById(id);
     }

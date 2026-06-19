@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaSearch, FaUserFriends, FaChild, FaLink } from "react-icons/fa";
 import Sidebar from "../components/Sidebar";
 
 import { listarPadres } from "../services/padreService";
@@ -16,8 +17,14 @@ function VincularPadreHijo() {
   const [vinculos, setVinculos] = useState([]);
 
   const [idPadre, setIdPadre] = useState("");
-  const [idEstudiante, setIdEstudiante] =
-    useState("");
+  const [idEstudiante, setIdEstudiante] = useState("");
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const vinculosFiltrados = vinculos.filter((v) => {
+    const valor = `${v.padre?.nombres} ${v.padre?.apellidos} ${v.estudiante?.nombres} ${v.estudiante?.apellidoPaterno}`.toLowerCase();
+    return valor.includes(searchTerm.toLowerCase());
+  });
 
   useEffect(() => {
     cargarDatos();
@@ -26,10 +33,8 @@ function VincularPadreHijo() {
   const cargarDatos = async () => {
     try {
       const padresRes = await listarPadres();
-      const estudiantesRes =
-        await listarEstudiantes();
-      const vinculosRes =
-        await listarVinculos();
+      const estudiantesRes = await listarEstudiantes();
+      const vinculosRes = await listarVinculos();
 
       setPadres(padresRes.data);
       setEstudiantes(estudiantesRes.data);
@@ -41,9 +46,7 @@ function VincularPadreHijo() {
 
   const vincular = async () => {
     if (!idPadre || !idEstudiante) {
-      alert(
-        "Seleccione padre y estudiante"
-      );
+      alert("Seleccione padre y estudiante");
       return;
     }
 
@@ -64,20 +67,12 @@ function VincularPadreHijo() {
 
       cargarDatos();
     } catch (error) {
-      alert(
-        error.response?.data ||
-          "Error al vincular"
-      );
+      alert(error.response?.data || "Error al vincular");
     }
   };
 
   const eliminar = async (id) => {
-    if (
-      !window.confirm(
-        "¿Eliminar vínculo?"
-      )
-    )
-      return;
+    if (!window.confirm("¿Eliminar vínculo?")) return;
 
     await eliminarVinculo(id);
 
@@ -106,10 +101,18 @@ function VincularPadreHijo() {
         {/* BREADCRUMB */}
         <nav aria-label="breadcrumb" className="mb-3">
           <ol className="breadcrumb" style={{ backgroundColor: "transparent", paddingLeft: 0 }}>
-            <li className="breadcrumb-item"><a href="/" style={{ color: "#115133", textDecoration: "none" }}>Inicio</a></li>
-            <li className="breadcrumb-item active" aria-current="page" style={{ color: "#115133" }}>Vincular Padre - Hijo</li>
+            <li className="breadcrumb-item">
+              <a href="/" style={{ color: "#115133", textDecoration: "none" }}>
+                Inicio
+              </a>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page" style={{ color: "#115133" }}>
+              Vincular Padre - Hijo
+            </li>
           </ol>
         </nav>
+
+        {/* CABECERA */}
 
         <div
           className="card border-0 shadow-sm p-4 mb-4"
@@ -129,40 +132,83 @@ function VincularPadreHijo() {
               </p>
             </div>
 
-            <div className="d-flex flex-column flex-sm-row gap-2 align-items-stretch align-items-sm-center ms-lg-auto" style={{ minWidth: "220px" }}>
-              <span
-                className="badge px-3 py-2 fw-bold"
-                style={{
-                  backgroundColor: "#eef7f2",
-                  color: "#115133",
-                  borderRadius: "12px",
-                }}
+            <div
+              className="d-flex flex-column flex-sm-row gap-2 align-items-stretch align-items-sm-center ms-lg-auto"
+              style={{ minWidth: "260px" }}
+            >
+              <div
+                className="input-group rounded-4 overflow-hidden"
+                style={{ minWidth: "220px", maxWidth: "260px", width: "100%" }}
               >
-                Padres: {padres.length}
-              </span>
-              <span
-                className="badge px-3 py-2 fw-bold"
-                style={{
-                  backgroundColor: "#e6f7ff",
-                  color: "#0c5460",
-                  borderRadius: "12px",
-                }}
-              >
-                Estudiantes: {estudiantes.length}
-              </span>
-              <span
-                className="badge px-3 py-2 fw-bold"
-                style={{
-                  backgroundColor: "#fff3cd",
-                  color: "#856404",
-                  borderRadius: "12px",
-                }}
-              >
-                Vínculos: {vinculos.length}
-              </span>
+                <span className="input-group-text bg-white border-0 px-3">
+                  <FaSearch className="text-muted" />
+                </span>
+                <input
+                  type="search"
+                  className="form-control border-0"
+                  placeholder="Buscar vínculo..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ backgroundColor: "#eff2f7" }}
+                />
+              </div>
             </div>
           </div>
         </div>
+
+        {/* MÉTRICAS */}
+
+        <div className="row g-3 mb-4">
+          <div className="col-sm-6 col-xl-4">
+            <div className="card shadow-sm border-0 h-100" style={{ borderRadius: "20px" }}>
+              <div className="card-body p-4">
+                <div className="d-flex align-items-center gap-3">
+                  <div className="rounded-circle bg-success bg-opacity-10 text-success p-3">
+                    <FaUserFriends />
+                  </div>
+                  <div>
+                    <p className="text-uppercase text-muted small mb-1">Padres</p>
+                    <h4 className="fw-bold mb-0">{padres.length}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-sm-6 col-xl-4">
+            <div className="card shadow-sm border-0 h-100" style={{ borderRadius: "20px" }}>
+              <div className="card-body p-4">
+                <div className="d-flex align-items-center gap-3">
+                  <div className="rounded-circle bg-info bg-opacity-10 text-info p-3">
+                    <FaChild />
+                  </div>
+                  <div>
+                    <p className="text-uppercase text-muted small mb-1">Estudiantes</p>
+                    <h4 className="fw-bold mb-0">{estudiantes.length}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-sm-6 col-xl-4">
+            <div className="card shadow-sm border-0 h-100" style={{ borderRadius: "20px" }}>
+              <div className="card-body p-4">
+                <div className="d-flex align-items-center gap-3">
+                  <div className="rounded-circle bg-warning bg-opacity-10 text-warning p-3">
+                    <FaLink />
+                  </div>
+                  <div>
+                    <p className="text-uppercase text-muted small mb-1">Vínculos</p>
+                    <h4 className="fw-bold mb-0">{vinculos.length}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FORMULARIO */}
 
         <div
           className="card border-0 shadow-sm p-4 mb-4"
@@ -227,6 +273,8 @@ function VincularPadreHijo() {
           </div>
         </div>
 
+        {/* TABLA DE VÍNCULOS */}
+
         <div
           className="card border-0 shadow-sm"
           style={{
@@ -245,7 +293,9 @@ function VincularPadreHijo() {
               <h5 className="fw-bold m-0 text-dark" style={{ fontSize: "18px" }}>
                 Relaciones Registradas
               </h5>
-              <p className="text-muted small mb-0">Lista de vínculos padre-estudiante creados en el sistema.</p>
+              <p className="text-muted small mb-0">
+                {vinculosFiltrados.length} resultados de {vinculos.length} vínculos
+              </p>
             </div>
             <span
               className="badge px-3 py-2 fw-bold"
@@ -270,27 +320,50 @@ function VincularPadreHijo() {
                 }}
               >
                 <tr>
-                  <th className="ps-4 py-3 text-secondary">ID</th>
-                  <th className="text-secondary">Padre</th>
+                  <th className="ps-4 py-3 text-secondary">Padre</th>
                   <th className="text-secondary">Estudiante</th>
                   <th className="text-center text-secondary">Acción</th>
                 </tr>
               </thead>
               <tbody>
-                {vinculos.length === 0 ? (
+                {vinculosFiltrados.length === 0 ? (
                   <tr>
-                    <td colSpan="4" className="text-center py-5 text-muted fw-semibold">
+                    <td colSpan="3" className="text-center py-5 text-muted fw-semibold">
                       No hay vínculos registrados.
                     </td>
                   </tr>
                 ) : (
-                  vinculos.map((v) => (
+                  vinculosFiltrados.map((v) => (
                     <tr key={v.idPadreEstudiante} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                      <td className="ps-4 py-3">{v.idPadreEstudiante}</td>
-                      <td>
-                        <div className="fw-semibold">{v.padre?.nombres} {v.padre?.apellidos}</div>
+                      <td className="ps-4 py-3">
+                        <div className="d-flex align-items-center">
+                          <div
+                            style={{
+                              width: "45px",
+                              height: "45px",
+                              backgroundColor: "#e1f7e7",
+                              borderRadius: "50%",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontWeight: "bold",
+                              color: "#115133",
+                            }}
+                          >
+                            {v.padre?.nombres?.charAt(0)?.toUpperCase()}
+                          </div>
+
+                          <div className="ms-3">
+                            <div className="fw-bold">
+                              {v.padre?.nombres} {v.padre?.apellidos}
+                            </div>
+                            <small className="text-muted">ID: {v.idPadreEstudiante}</small>
+                          </div>
+                        </div>
                       </td>
-                      <td>{v.estudiante?.nombres} {v.estudiante?.apellidoPaterno}</td>
+                      <td>
+                        {v.estudiante?.nombres} {v.estudiante?.apellidoPaterno}
+                      </td>
                       <td className="text-center">
                         <button
                           className="btn btn-sm btn-danger"

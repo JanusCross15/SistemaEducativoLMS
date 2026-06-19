@@ -4,23 +4,22 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "padres")
-
 public class Padre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id_padre")
     private Integer idPadre;
 
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
     private String nombres;
     private String apellidos;
-
     private String dni;
     private String telefono;
-
     private String direccion;
-
     private String tipo;
 
     // GETTERS Y SETTERS
@@ -31,6 +30,14 @@ public class Padre {
 
     public void setIdPadre(Integer idPadre) {
         this.idPadre = idPadre;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getNombres() {

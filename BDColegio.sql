@@ -44,6 +44,8 @@ CREATE TABLE estudiantes (
     REFERENCES matriculas(id_matricula)
 );
 
+DROP TABLE IF EXISTS padres CASCADE;
+
 CREATE TABLE padres (
 
     id_padre SERIAL PRIMARY KEY,
@@ -60,7 +62,13 @@ CREATE TABLE padres (
 
     tipo VARCHAR(20),
 
-    estado VARCHAR(20) DEFAULT 'ACTIVO'
+    estado VARCHAR(20) DEFAULT 'ACTIVO',
+
+    id_usuario INT UNIQUE,
+
+    CONSTRAINT fk_padre_usuario
+        FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
 
 );
 

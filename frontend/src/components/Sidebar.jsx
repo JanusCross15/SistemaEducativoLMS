@@ -21,22 +21,43 @@ import {
 import "./Sidebar.css";
 import logoColegio from "../assets/IconColegio.ico";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+
+// Lee el valor de localStorage UNA sola vez, fuera del componente
+const getInitialCollapsed = () => {
+  return localStorage.getItem("sidebarCollapsed") === "true";
+};
 
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const footerRef = useRef(null);
+  const menuScrollRef = useRef(null); // referencia al div scrolleable del menú
 
-  const [collapsed, setCollapsed] = useState(() => {
-    return localStorage.getItem("sidebarCollapsed") === "true";
-  });
+  // Se inicializa correctamente con la función lazy del useState
+  const [collapsed, setCollapsed] = useState(getInitialCollapsed);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
+  // Persiste el estado en localStorage cada vez que cambia
   useEffect(() => {
-    localStorage.setItem("sidebarCollapsed", collapsed);
+    localStorage.setItem("sidebarCollapsed", String(collapsed));
   }, [collapsed]);
+
+  // Restaura la posición de scroll al montar el componente
+  useEffect(() => {
+    const savedScroll = parseInt(localStorage.getItem("sidebarScrollTop") || "0", 10);
+    if (menuScrollRef.current) {
+      menuScrollRef.current.scrollTop = savedScroll;
+    }
+  }, []);
+
+  // Guarda la posición de scroll al navegar (antes de que el componente se re-renderice)
+  const saveScrollPosition = useCallback(() => {
+    if (menuScrollRef.current) {
+      localStorage.setItem("sidebarScrollTop", String(menuScrollRef.current.scrollTop));
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -83,41 +104,44 @@ function Sidebar() {
     navigate("/usuarios");
   };
 
+  // Navega sin recargar la página, guardando el scroll antes de cambiar de ruta
+  const handleNavigate = useCallback((e, path) => {
+    e.preventDefault();
+    e.stopPropagation();
+    saveScrollPosition();
+    navigate(path);
+  }, [navigate, saveScrollPosition]);
+
+  const handleToggle = useCallback((e) => {
+    e.stopPropagation();
+    setCollapsed((prev) => !prev);
+  }, []);
+
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-      
-      {/* BOTÓN HAMBURGUESA */}
 
+      {/* BOTÓN HAMBURGUESA */}
       <div className="toggle-sidebar">
         <FaBars
-          onClick={() => setCollapsed(!collapsed)}
-          style={{ cursor: "pointer" }}
+          onClick={handleToggle}
+          style={{ cursor: "pointer", fontSize: "22px", color: "#0d3b2e", padding: "6px", borderRadius: "8px", display: "block" }}
         />
       </div>
 
       {/* LOGO */}
-
       <div className="sidebar-header">
         <img src={logoColegio} alt="Logo Colegio" className="sidebar-logo" />
 
         {!collapsed && (
           <div>
             <h3 className="sidebar-title">Colegio C.E.P La Sagrada Familia</h3>
-
             <p className="sidebar-subtitle">LMS Académico</p>
           </div>
         )}
       </div>
 
       {/* MENÚ */}
-
-      <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          paddingTop: "10px",
-        }}
-      >
+      <div ref={menuScrollRef} style={{ flex: 1, overflowY: "auto", paddingTop: "10px" }}>
         <MenuSection title="Menú Principal" collapsed={collapsed} />
 
         <MenuItem
@@ -125,7 +149,7 @@ function Sidebar() {
           text="Dashboard"
           collapsed={collapsed}
           active={location.pathname === "/dashboard"}
-          onClick={() => navigate("/dashboard")}
+          onClick={(e) => handleNavigate(e, "/dashboard")}
         />
 
         <MenuSection title="Gestión Académica" collapsed={collapsed} />
@@ -135,7 +159,7 @@ function Sidebar() {
           text="Cursos"
           collapsed={collapsed}
           active={location.pathname === "/cursos"}
-          onClick={() => navigate("/cursos")}
+          onClick={(e) => handleNavigate(e, "/cursos")}
         />
 
         <MenuItem
@@ -143,7 +167,7 @@ function Sidebar() {
           text="Estudiantes"
           collapsed={collapsed}
           active={location.pathname === "/estudiantes"}
-          onClick={() => navigate("/estudiantes")}
+          onClick={(e) => handleNavigate(e, "/estudiantes")}
         />
 
         <MenuItem
@@ -151,7 +175,7 @@ function Sidebar() {
           text="Docentes"
           collapsed={collapsed}
           active={location.pathname === "/docentes"}
-          onClick={() => navigate("/docentes")}
+          onClick={(e) => handleNavigate(e, "/docentes")}
         />
 
         <MenuItem
@@ -159,7 +183,7 @@ function Sidebar() {
           text="Matrículas"
           collapsed={collapsed}
           active={location.pathname === "/matriculas"}
-          onClick={() => navigate("/matriculas")}
+          onClick={(e) => handleNavigate(e, "/matriculas")}
         />
 
         <MenuSection title="Gestión Escolar" collapsed={collapsed} />
@@ -169,7 +193,7 @@ function Sidebar() {
           text="Asignaciones"
           collapsed={collapsed}
           active={location.pathname === "/asignaciones"}
-          onClick={() => navigate("/asignaciones")}
+          onClick={(e) => handleNavigate(e, "/asignaciones")}
         />
 
         <MenuItem
@@ -177,7 +201,7 @@ function Sidebar() {
           text="Horario Maestro"
           collapsed={collapsed}
           active={location.pathname === "/horarios"}
-          onClick={() => navigate("/horarios")}
+          onClick={(e) => handleNavigate(e, "/horarios")}
         />
 
         <MenuItem
@@ -185,7 +209,7 @@ function Sidebar() {
           text="Evaluaciones"
           collapsed={collapsed}
           active={location.pathname === "/evaluaciones"}
-          onClick={() => navigate("/evaluaciones")}
+          onClick={(e) => handleNavigate(e, "/evaluaciones")}
         />
 
         <MenuSection title="Usuarios" collapsed={collapsed} />
@@ -195,7 +219,7 @@ function Sidebar() {
           text="Padres"
           collapsed={collapsed}
           active={location.pathname === "/padres"}
-          onClick={() => navigate("/padres")}
+          onClick={(e) => handleNavigate(e, "/padres")}
         />
 
         <MenuItem
@@ -203,7 +227,7 @@ function Sidebar() {
           text="Usuarios"
           collapsed={collapsed}
           active={location.pathname === "/usuarios"}
-          onClick={() => navigate("/usuarios")}
+          onClick={(e) => handleNavigate(e, "/usuarios")}
         />
 
         <MenuItem
@@ -211,7 +235,7 @@ function Sidebar() {
           text="Vínculos Padre-Hijo"
           collapsed={collapsed}
           active={location.pathname === "/vincular-padre-hijo"}
-          onClick={() => navigate("/vincular-padre-hijo")}
+          onClick={(e) => handleNavigate(e, "/vincular-padre-hijo")}
         />
 
         <MenuSection title="Procesos" collapsed={collapsed} />
@@ -221,7 +245,7 @@ function Sidebar() {
           text="Solicitudes"
           collapsed={collapsed}
           active={location.pathname === "/solicitudes"}
-          onClick={() => navigate("/solicitudes")}
+          onClick={(e) => handleNavigate(e, "/solicitudes")}
         />
 
         <MenuItem
@@ -229,7 +253,7 @@ function Sidebar() {
           text="Comunicados"
           collapsed={collapsed}
           active={location.pathname === "/comunicados"}
-          onClick={() => navigate("/comunicados")}
+          onClick={(e) => handleNavigate(e, "/comunicados")}
         />
 
         <MenuItem
@@ -237,7 +261,7 @@ function Sidebar() {
           text="Observaciones"
           collapsed={collapsed}
           active={location.pathname === "/observaciones"}
-          onClick={() => navigate("/observaciones")}
+          onClick={(e) => handleNavigate(e, "/observaciones")}
         />
 
         <MenuSection title="Reportes" collapsed={collapsed} />
@@ -247,7 +271,7 @@ function Sidebar() {
           text="Reportes PDF"
           collapsed={collapsed}
           active={location.pathname === "/reportes-pdf"}
-          onClick={() => navigate("/reportes-pdf")}
+          onClick={(e) => handleNavigate(e, "/reportes-pdf")}
         />
 
         <MenuItem
@@ -255,7 +279,7 @@ function Sidebar() {
           text="Reportes Excel"
           collapsed={collapsed}
           active={location.pathname === "/reportes-excel"}
-          onClick={() => navigate("/reportes-excel")}
+          onClick={(e) => handleNavigate(e, "/reportes-excel")}
         />
 
         <MenuItem
@@ -263,12 +287,11 @@ function Sidebar() {
           text="Generar Matrícula"
           collapsed={collapsed}
           active={location.pathname === "/generar-matricula"}
-          onClick={() => navigate("/generar-matricula")}
+          onClick={(e) => handleNavigate(e, "/generar-matricula")}
         />
       </div>
 
       {/* FOOTER */}
-
       <div className="sidebar-footer" ref={footerRef}>
         <div
           className={`user-profile-button ${userMenuOpen ? "open" : ""}`}
@@ -329,11 +352,19 @@ function Sidebar() {
 
         {userMenuOpen && (
           <div className={`user-menu ${collapsed ? "collapsed" : ""}`}>
-            <div className={`user-menu-item ${collapsed ? "icon-only" : ""}`} title={collapsed ? "Ver perfil" : undefined} onClick={handleVerPerfil}>
+            <div
+              className={`user-menu-item ${collapsed ? "icon-only" : ""}`}
+              title={collapsed ? "Ver perfil" : undefined}
+              onClick={handleVerPerfil}
+            >
               <FaUserCircle />
               {!collapsed && <span>Ver perfil</span>}
             </div>
-            <div className={`user-menu-item logout ${collapsed ? "icon-only" : ""}`} title={collapsed ? "Cerrar sesión" : undefined} onClick={handleLogout}>
+            <div
+              className={`user-menu-item logout ${collapsed ? "icon-only" : ""}`}
+              title={collapsed ? "Cerrar sesión" : undefined}
+              onClick={handleLogout}
+            >
               <FaSignOutAlt />
               {!collapsed && <span>Cerrar sesión</span>}
             </div>
@@ -346,7 +377,6 @@ function Sidebar() {
 
 function MenuSection({ title, collapsed }) {
   if (collapsed) return null;
-
   return <div className="menu-section">{title}</div>;
 }
 
@@ -356,9 +386,11 @@ function MenuItem({ icon, text, onClick, active, collapsed }) {
       onClick={onClick}
       className={`menu-item ${active ? "active" : ""}`}
       title={collapsed ? text : ""}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && onClick(e)}
     >
       {icon}
-
       {!collapsed && <span>{text}</span>}
     </div>
   );
