@@ -10,8 +10,10 @@ public class SolicitudMatricula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_solicitud")
+
     private Integer idSolicitud;
 
+    @Column(name = "fecha_solicitud")
     private LocalDate fechaSolicitud;
 
     private String estado;
