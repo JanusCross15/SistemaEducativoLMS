@@ -25,6 +25,7 @@ import Comunicados from "../pages/Comunicados";
 import Observaciones from "../pages/Observaciones";
 import Solicitudes from "../pages/SolicitudesMatricula";
 
+import AlumnosCurso from "../pages/AlumnosCurso";
 import ReportesExcel from "../pages/ReporteExcel";
 import ReportesPDF from "../pages/ReportePdf";
 import ReportesMetabase from "../pages/ReportesMetabase";
@@ -73,6 +74,7 @@ function AppRouter() {
         <Route path="/reportes-metabase" element={<ReportesMetabase />} />
 
         <Route path="/generar-matricula" element={<GenerarMatricula />} />
+        <Route path="/alumnos-curso" element={<AlumnosCurso />} />
       </Routes>
     </BrowserRouter>
   );
