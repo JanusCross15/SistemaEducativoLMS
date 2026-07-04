@@ -11,20 +11,44 @@ function ReportePdf() {
   const [cursos, setCursos] = useState([]);
   const [gradoSeccion, setGradoSeccion] = useState({ grado: "", seccion: "" });
 
-  useEffect(() => {
-    cargarEstudiantes();
-    cargarCursos();
-  }, []);
-
   const cargarEstudiantes = async () => {
-    const response = await axios.get(`${API}/estudiantes`);
-    setEstudiantes(response.data);
+    try {
+      const response = await axios.get(`${API}/estudiantes`);
+      const data = response && response.data ? response.data : [];
+      if (data && data.content) return data.content;
+      if (Array.isArray(data)) return data;
+      return [];
+    } catch (error) {
+      console.error("Error cargarEstudiantes:", error);
+      return [];
+    }
   };
 
   const cargarCursos = async () => {
-    const response = await axios.get(`${API}/cursos`);
-    setCursos(response.data);
+    try {
+      const response = await axios.get(`${API}/cursos`);
+      return response && response.data ? response.data : [];
+    } catch (error) {
+      console.error("Error cargarCursos:", error);
+      return [];
+    }
   };
+
+  useEffect(() => {
+    let activo = true;
+
+    (async () => {
+      const [est, cur] = await Promise.all([cargarEstudiantes(), cargarCursos()]);
+      if (activo) {
+        setEstudiantes(est);
+        setCursos(cur);
+      }
+    })();
+
+    return () => {
+      activo = false;
+    };
+  }, []);
 
   const reportes = [
     {

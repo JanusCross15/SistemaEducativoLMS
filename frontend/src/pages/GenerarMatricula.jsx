@@ -12,16 +12,32 @@ function GenerarMatricula() {
 
   const [idEstudiante, setIdEstudiante] = useState("");
 
-  useEffect(() => {
-    obtenerEstudiantes();
-  }, []);
-
   const obtenerEstudiantes = async () => {
-
-    const response = await listarEstudiantes();
-
-    setEstudiantes(response.data);
+    try {
+      const response = await listarEstudiantes();
+      const data = response && response.data ? response.data : [];
+      // si viene paginado, devolver content
+      if (data && data.content) return data.content;
+      if (Array.isArray(data)) return data;
+      return [];
+    } catch (error) {
+      console.error("Error al obtener estudiantes:", error);
+      return [];
+    }
   };
+
+  useEffect(() => {
+    let activo = true;
+
+    (async () => {
+      const data = await obtenerEstudiantes();
+      if (activo) setEstudiantes(data);
+    })();
+
+    return () => {
+      activo = false;
+    };
+  }, []);
 
   const generarPdf = async () => {
 

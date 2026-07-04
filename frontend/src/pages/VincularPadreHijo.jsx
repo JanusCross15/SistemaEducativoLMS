@@ -28,23 +28,25 @@ function VincularPadreHijo() {
     return valor.includes(searchTerm.toLowerCase());
   });
 
-  useEffect(() => {
-    cargarDatos();
-  }, []);
-
   const cargarDatos = async () => {
     try {
       const padresRes = await listarPadres();
       const estudiantesRes = await listarEstudiantes();
       const vinculosRes = await listarVinculos();
-
-      setPadres(padresRes.data);
-      setEstudiantes(estudiantesRes.data);
-      setVinculos(vinculosRes.data);
+      setPadres(padresRes.data || []);
+      const estData = estudiantesRes && estudiantesRes.data ? estudiantesRes.data : [];
+      if (estData && estData.content) setEstudiantes(estData.content);
+      else if (Array.isArray(estData)) setEstudiantes(estData);
+      else setEstudiantes([]);
+      setVinculos(vinculosRes.data || []);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    cargarDatos();
+  }, []);
 
   const limpiarVinculo = () => {
     setIdPadre("");

@@ -28,7 +28,15 @@ function ReportesMetabase() {
   const [cargando, setcargando] = useState(false);
 
   useEffect(() => {
-    verificarConexion();
+    (async () => {
+      try {
+        const response = await fetch(`${API_METABASE}/status`);
+        const data = await response.json();
+        setConexionStatus(data.conectado);
+      } catch (error) {
+        setConexionStatus(false);
+      }
+    })();
   }, []);
 
   const recargarIframe = () => {
@@ -40,15 +48,7 @@ function ReportesMetabase() {
     setIframeError(true);
   };
 
-  const verificarConexion = async () => {
-    try {
-      const response = await fetch(`${API_METABASE}/status`);
-      const data = await response.json();
-      setConexionStatus(data.conectado);
-    } catch (error) {
-      setConexionStatus(false);
-    }
-  };
+  // verificarConexion removed; logic executed in useEffect to avoid hoisting issues
 
   const cargarDatosVista = async (vistaId) => {
     setcargando(true);

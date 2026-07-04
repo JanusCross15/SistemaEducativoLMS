@@ -1,4 +1,4 @@
-.usuarios-container {
+.padres-container {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
@@ -17,17 +17,17 @@
   box-sizing: border-box;
 }
 
-/* Table responsiveness: allow horizontal scrolling inside the table wrapper, but prevent page overflow */
-.usu-table-scroll {
+.padres-table-scroll {
   overflow-x: auto;
 }
 
-.usu-table {
+/* Table responsiveness: allow table layout to fill container without forcing a horizontal scrollbar */
+.padres-table {
   width: 100%;
-  min-width: 0; /* do not force minimum width that causes page scroll */
+  min-width: 0;
 }
 
-.usu-table-head {
+.padres-table-head {
   background-color: #f8f9fa;
   position: sticky;
   top: 0;
