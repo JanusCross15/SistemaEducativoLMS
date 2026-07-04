@@ -1,0 +1,266 @@
+.registro-container {
+  display: flex;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+.registro-main {
+  flex: 1;
+  margin-left: 270px;
+  padding: 30px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* HEADER */
+.registro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  background: linear-gradient(135deg, #7a1b1b 0%, #a62649 100%);
+  padding: 25px 30px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 4px 20px rgba(122, 27, 27, 0.3);
+}
+
+.registro-header-info h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.registro-header-info p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.badge-procedure {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* INFORMACION DEL PROCEDIMIENTO */
+.registro-procedure-info {
+  margin-bottom: 25px;
+}
+
+.procedure-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 20px 25px;
+  border-radius: 12px;
+  border-left: 5px solid #7a1b1b;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.procedure-icon {
+  background: linear-gradient(135deg, #7a1b1b 0%, #a62649 100%);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.procedure-details h5 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #7a1b1b;
+  font-family: monospace;
+}
+
+.procedure-details p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.procedure-details strong {
+  color: #7a1b1b;
+}
+
+/* SECCIONES */
+.registro-section {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.registro-section-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 25px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.section-number {
+  background: #7a1b1b;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.registro-section-header h4 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.registro-section-body {
+  padding: 25px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+/* FORMULARIO */
+.registro-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.required {
+  color: #dc3545;
+}
+
+.registro-input,
+.registro-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.registro-input:focus,
+.registro-select:focus {
+  outline: none;
+  border-color: #7a1b1b;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(122, 27, 27, 0.1);
+}
+
+.registro-input.is-invalid,
+.registro-select.is-invalid {
+  border-color: #dc3545;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* BOTONES */
+.registro-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-registro-clear {
+  padding: 12px 24px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-registro-clear:hover {
+  border-color: #94a3b8;
+  color: #475569;
+  background: #f8fafc;
+}
+
+.btn-registro-submit {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7a1b1b 0%, #a62649 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(122, 27, 27, 0.3);
+}
+
+.btn-registro-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(122, 27, 27, 0.4);
+}
+
+.btn-registro-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .registro-main {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .registro-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .procedure-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .registro-actions {
+    flex-direction: column;
+  }
+
+  .btn-registro-clear,
+  .btn-registro-submit {
+    width: 100%;
+  }
+}

@@ -25,8 +25,11 @@ import Comunicados from "../pages/Comunicados";
 import Observaciones from "../pages/Observaciones";
 import Solicitudes from "../pages/SolicitudesMatricula";
 
+import AlumnosCurso from "../pages/AlumnosCurso";
+import RegistroCompleto from "../pages/RegistroCompleto";
 import ReportesExcel from "../pages/ReporteExcel";
 import ReportesPDF from "../pages/ReportePdf";
+import ReportesMetabase from "../pages/ReportesMetabase";
 
 function AppRouter() {
   return (
@@ -69,8 +72,11 @@ function AppRouter() {
 
         <Route path="/reportes-pdf" element={<ReportesPDF />} />
         <Route path="/reportes-excel" element={<ReportesExcel />} />
+        <Route path="/reportes-metabase" element={<ReportesMetabase />} />
 
         <Route path="/generar-matricula" element={<GenerarMatricula />} />
+        <Route path="/registro-completo" element={<RegistroCompleto />} />
+        <Route path="/alumnos-curso" element={<AlumnosCurso />} />
       </Routes>
     </BrowserRouter>
   );

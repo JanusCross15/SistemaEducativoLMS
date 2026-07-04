@@ -1,0 +1,356 @@
+.alumnos-container {
+  display: flex;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+.alumnos-main {
+  flex: 1;
+  margin-left: 270px;
+  padding: 30px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* HEADER */
+.alumnos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+  padding: 25px 30px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 4px 20px rgba(30, 58, 95, 0.3);
+}
+
+.alumnos-header-info h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.alumnos-header-info p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* PROCEDIMIENTO */
+.alumnos-procedure-info {
+  margin-bottom: 25px;
+}
+
+.alumnos-procedure-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 20px 25px;
+  border-radius: 12px;
+  border-left: 5px solid #1e3a5f;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.alumnos-procedure-icon {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.alumnos-procedure-details h5 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e3a5f;
+  font-family: monospace;
+}
+
+.alumnos-procedure-details p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.alumnos-procedure-details strong {
+  color: #1e3a5f;
+}
+
+/* FILTROS */
+.alumnos-filtros {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  margin-bottom: 25px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.alumnos-filtro-group {
+  flex: 1;
+}
+
+.alumnos-filtro-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.alumnos-filtro-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.alumnos-filtro-group select:focus {
+  outline: none;
+  border-color: #1e3a5f;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+}
+
+.alumnos-btn-buscar {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.alumnos-btn-buscar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(30, 58, 95, 0.4);
+}
+
+.alumnos-btn-buscar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* RESUMEN */
+.alumnos-resumen {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.alumnos-resumen-card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.alumnos-resumen-card.total {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border: 1px solid #cbd5e1;
+}
+
+.alumnos-resumen-card.aprobados {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 1px solid #86efac;
+}
+
+.alumnos-resumen-card.desaprobados {
+  background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+  border: 1px solid #fca5a5;
+}
+
+.resumen-number {
+  display: block;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.alumnos-resumen-card.total .resumen-number {
+  color: #475569;
+}
+
+.alumnos-resumen-card.aprobados .resumen-number {
+  color: #16a34a;
+}
+
+.alumnos-resumen-card.desaprobados .resumen-number {
+  color: #dc2626;
+}
+
+.resumen-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* TABLA */
+.alumnos-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.alumnos-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 25px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.alumnos-card-header h5 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.alumnos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.alumnos-table thead th {
+  background: #1e3a5f;
+  color: white;
+  padding: 12px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.alumnos-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s ease;
+}
+
+.alumnos-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.alumnos-table tbody td {
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.badge-codigo {
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.promedio {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.promedio.aprobado {
+  color: #16a34a;
+}
+
+.promedio.desaprobado {
+  color: #dc2626;
+}
+
+.badge-estado {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-estado.aprobado {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+.badge-estado.desaprobado {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.observaciones-cell {
+  max-width: 200px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.alumnos-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.alumnos-empty h5 {
+  margin: 0 0 8px;
+  color: #64748b;
+}
+
+.alumnos-empty p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .alumnos-main {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .alumnos-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .alumnos-procedure-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .alumnos-filtros {
+    flex-direction: column;
+  }
+
+  .alumnos-resumen {
+    flex-direction: column;
+  }
+}

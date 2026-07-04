@@ -1,0 +1,38 @@
+# Metabase
+metabase.jar
+metabase-data/
+*.db.mv.db
+*.db.trace.db
+
+# Java / Spring Boot
+*.class
+*.jar
+*.war
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node
+node_modules/
+frontend/build/
+frontend/dist/
+frontend/.env.local
+
+# Environment
+.env
