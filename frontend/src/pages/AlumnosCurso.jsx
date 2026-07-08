@@ -1,10 +1,9 @@
-import { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import Sidebar from "../components/Sidebar";
 import { listarAlumnosCurso } from "../services/alumnoCursoService";
 import { listarCursos } from "../services/cursoService";
 import { listarDocentes } from "../services/docenteService";
-import { useEffect } from "react";
 import "./AlumnosCurso.css";
 
 function AlumnosCurso() {
@@ -41,7 +40,11 @@ function AlumnosCurso() {
 
   const buscar = async () => {
     if (!idCurso || !idDocente) {
-      Swal.fire("Campos requeridos", "Seleccione un curso y un docente", "warning");
+      Swal.fire(
+        "Campos requeridos",
+        "Seleccione un curso y un docente",
+        "warning",
+      );
       return;
     }
 
@@ -60,8 +63,10 @@ function AlumnosCurso() {
     }
   };
 
-  const contarAprobados = () => alumnos.filter((a) => a.estado === "APROBADO").length;
-  const contarDesaprobados = () => alumnos.filter((a) => a.estado === "DESAPROBADO").length;
+  const contarAprobados = () =>
+    alumnos.filter((a) => a.estado === "APROBADO").length;
+  const contarDesaprobados = () =>
+    alumnos.filter((a) => a.estado === "DESAPROBADO").length;
 
   const esFemenino = (grado) => {
     return false;
@@ -79,23 +84,13 @@ function AlumnosCurso() {
           </div>
         </div>
 
-        <div className="alumnos-procedure-info">
-          <div className="alumnos-procedure-card">
-            <div className="alumnos-procedure-icon">BD</div>
-            <div className="alumnos-procedure-details">
-              <h5>fn_listar_alumnos_curso</h5>
-              <p>
-                Funcion que consulta <strong>5 tablas</strong>: estudiantes,
-                calificaciones, tareas, matriculas, cursos
-              </p>
-            </div>
-          </div>
-        </div>
-
         <div className="alumnos-filtros">
           <div className="alumnos-filtro-group">
             <label>Curso</label>
-            <select value={idCurso} onChange={(e) => setIdCurso(e.target.value)}>
+            <select
+              value={idCurso}
+              onChange={(e) => setIdCurso(e.target.value)}
+            >
               <option value="">Seleccione curso</option>
               {cursos.map((c) => (
                 <option key={c.idCurso} value={c.idCurso}>
@@ -106,7 +101,10 @@ function AlumnosCurso() {
           </div>
           <div className="alumnos-filtro-group">
             <label>Docente</label>
-            <select value={idDocente} onChange={(e) => setIdDocente(e.target.value)}>
+            <select
+              value={idDocente}
+              onChange={(e) => setIdDocente(e.target.value)}
+            >
               <option value="">Seleccione docente</option>
               {docentes.map((d) => (
                 <option key={d.idDocente} value={d.idDocente}>
@@ -115,7 +113,11 @@ function AlumnosCurso() {
               ))}
             </select>
           </div>
-          <button className="alumnos-btn-buscar" onClick={buscar} disabled={cargando}>
+          <button
+            className="alumnos-btn-buscar"
+            onClick={buscar}
+            disabled={cargando}
+          >
             {cargando ? "Buscando..." : "Buscar Alumnos"}
           </button>
         </div>
@@ -168,24 +170,40 @@ function AlumnosCurso() {
                       {alumnos.map((alumno, index) => (
                         <tr key={index}>
                           <td>
-                            <span className="badge-codigo">{alumno.codigo}</span>
+                            <span className="badge-codigo">
+                              {alumno.codigo}
+                            </span>
                           </td>
                           <td>{alumno.nombreCompleto.split(",")[0]}</td>
-                          <td>{alumno.nombreCompleto.split(",")[1]?.split(" ")[0]}</td>
-                          <td>{alumno.nombreCompleto.split(",")[1]?.split(" ").slice(1).join(" ")}</td>
+                          <td>
+                            {alumno.nombreCompleto.split(",")[1]?.split(" ")[0]}
+                          </td>
+                          <td>
+                            {alumno.nombreCompleto
+                              .split(",")[1]
+                              ?.split(" ")
+                              .slice(1)
+                              .join(" ")}
+                          </td>
                           <td>{alumno.grado}</td>
                           <td>{alumno.seccion}</td>
                           <td>
-                            <span className={`promedio ${alumno.estado === "APROBADO" ? "aprobado" : "desaprobado"}`}>
+                            <span
+                              className={`promedio ${alumno.estado === "APROBADO" ? "aprobado" : "desaprobado"}`}
+                            >
                               {alumno.promedio}
                             </span>
                           </td>
                           <td>
-                            <span className={`badge-estado ${alumno.estado === "APROBADO" ? "aprobado" : "desaprobado"}`}>
+                            <span
+                              className={`badge-estado ${alumno.estado === "APROBADO" ? "aprobado" : "desaprobado"}`}
+                            >
                               {alumno.estado}
                             </span>
                           </td>
-                          <td className="observaciones-cell">{alumno.observaciones}</td>
+                          <td className="observaciones-cell">
+                            {alumno.observaciones}
+                          </td>
                           <td>{alumno.totalTareas}</td>
                         </tr>
                       ))}

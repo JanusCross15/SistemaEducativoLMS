@@ -27,6 +27,7 @@ import Solicitudes from "../pages/SolicitudesMatricula";
 
 import AlumnosCurso from "../pages/AlumnosCurso";
 import RegistroCompleto from "../pages/RegistroCompleto";
+import RegistrarTarea from "../pages/RegistrarTarea";
 import ReportesExcel from "../pages/ReporteExcel";
 import ReportesPDF from "../pages/ReportePdf";
 import ReportesMetabase from "../pages/ReportesMetabase";
@@ -76,6 +77,7 @@ function AppRouter() {
 
         <Route path="/generar-matricula" element={<GenerarMatricula />} />
         <Route path="/registro-completo" element={<RegistroCompleto />} />
+        <Route path="/registrar-tarea" element={<RegistrarTarea />} />
         <Route path="/alumnos-curso" element={<AlumnosCurso />} />
       </Routes>
     </BrowserRouter>
