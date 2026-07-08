@@ -6,12 +6,15 @@
 
 /* Layout helpers */
 .main-content {
-  display: block;
+  flex: 1;
+  margin-left: 270px;
+  padding: 40px;
+  min-width: 0;
 }
 
 .content-wrap {
   flex: 1;
-  margin-left: 270px;
+  margin-left: 200px;
   padding: 40px;
   min-width: 0; /* allow children to shrink */
   box-sizing: border-box;

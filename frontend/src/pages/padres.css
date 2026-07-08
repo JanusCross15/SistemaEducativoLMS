@@ -7,16 +7,9 @@
 /* Layout helpers */
 .main-content {
   flex: 1;
-  margin-left: 270px;
+  margin-left: 100px;
   padding: 40px;
   min-width: 0;
-}
-
-.content-wrap {
-  flex: 1;
-  padding: 0;
-  min-width: 0; /* allow children to shrink */
-  box-sizing: border-box;
 }
 
 .padres-table-scroll {

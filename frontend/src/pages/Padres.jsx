@@ -156,7 +156,7 @@ function Padres() {
         if (activo) {
           if (resPadres && resPadres.data) setPadres(resPadres.data);
           if (resEstudiantes && resEstudiantes.data)
-            setEstudiantes(resEstudiantes.data);
+            setEstudiantes(resEstudiantes.data.content || resEstudiantes.data);
           if (resVinculos && resVinculos.data) setVinculos(resVinculos.data);
         }
       } catch (error) {
@@ -307,23 +307,8 @@ function Padres() {
       >
         <Sidebar />
         <div
-          className="main-content"
-          style={{
-            marginLeft: "270px",
-            padding: "40px",
-            minWidth: "0",
-            boxSizing: "border-box",
-          }}
-        >
-          <div className="padres-container"></div>
-          <div
-            style={{
-              flex: 1,
-              marginLeft: "270px",
-              padding: "40px",
-              minWidth: "0",
-            }}
-          >
+          className="main-content">
+          <div className="padres-container">
             {/* BREADCRUMB */}
             <nav aria-label="breadcrumb" className="mb-3">
               <ol

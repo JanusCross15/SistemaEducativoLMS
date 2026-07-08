@@ -266,16 +266,8 @@ function Usuarios() {
         <Sidebar />
 
         <div
-          className="main-content"
-          style={{
-            marginLeft: "270px",
-            padding: "40px",
-            minWidth: "0",
-            boxSizing: "border-box",
-          }}
-        >
+          className="main-content">
           <div className="usuarios-container">
-            <div className="content-wrap">
               {/* BREADCRUMB */}
               <nav aria-label="breadcrumb" className="mb-3">
                 <ol
@@ -1197,7 +1189,6 @@ function Usuarios() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
