@@ -2,6 +2,7 @@ package backend.controller;
 
 import backend.model.Calificacion;
 import backend.repository.CalificacionRepository;
+import backend.dto.CalificacionEstudianteDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,13 @@ public class CalificacionController {
 
     @Autowired
     private CalificacionRepository calificacionRepository;  
+
+    // LISTAR POR ESTUDIANTE (con info de tarea y curso)
+    @GetMapping("/por-estudiante/{idEstudiante}")
+    public List<CalificacionEstudianteDTO> listarCalificacionesPorEstudiante(
+            @PathVariable Integer idEstudiante) {
+        return calificacionRepository.findCalificacionesEstudiante(idEstudiante);
+    }
 
     // LISTAR
     @GetMapping

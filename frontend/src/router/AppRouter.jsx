@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Dashboard from "../pages/Dashboard";
 import DashboardDocente from "../pages/DashboardDocente";
+import DashboardEstudiante from "../pages/DashboardEstudiante";
 import DashboardPadre from "../pages/DashboardPadre";
 import Login from "../pages/Login";
 
@@ -41,6 +42,7 @@ function AppRouter() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard-padre" element={<DashboardPadre />} />
         <Route path="/dashboard-docente" element={<DashboardDocente />} />
+        <Route path="/dashboard-estudiante" element={<DashboardEstudiante />} />
 
         <Route path="/register-padre" element={<RegisterPadre />} />
 

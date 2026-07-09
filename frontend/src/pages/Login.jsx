@@ -65,6 +65,8 @@ function Login() {
           navigate("/dashboard-padre");
         } else if (rol === "DOCENTE") {
           navigate("/dashboard-docente");
+        } else if (rol === "ESTUDIANTE") {
+          navigate("/dashboard-estudiante");
         } else {
           navigate("/dashboard");
         }

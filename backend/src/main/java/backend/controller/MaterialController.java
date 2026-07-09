@@ -16,6 +16,12 @@ public class MaterialController {
     @Autowired
     private MaterialRepository materialRepository;
 
+    // LISTAR POR CURSO
+    @GetMapping("/por-curso/{idCurso}")
+    public List<Material> listarMaterialesPorCurso(@PathVariable Integer idCurso) {
+        return materialRepository.findByCurso(idCurso);
+    }
+
     // LISTAR
     @GetMapping
     public List<Material> listarMateriales() {

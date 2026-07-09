@@ -42,6 +42,15 @@ public class EstudianteController {
         return estudianteRepository.buscarEstudiantes(buscar, pageable);
     }
 
+    @GetMapping("/por-usuario/{idUsuario}")
+    public ResponseEntity<Estudiante> obtenerEstudiantePorUsuario(@PathVariable Integer idUsuario) {
+        Estudiante estudiante = estudianteRepository.findByidUsuario(idUsuario);
+        if (estudiante == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(estudiante);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Estudiante> obtenerEstudiante(@PathVariable Integer id) {
         Estudiante estudiante = estudianteRepository.findById(id).orElse(null);

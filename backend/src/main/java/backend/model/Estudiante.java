@@ -32,6 +32,9 @@ public class Estudiante {
     @JoinColumn(name = "id_matricula")
     private Matricula matricula;
 
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+
     public Estudiante() {
     }
 
@@ -145,5 +148,13 @@ public class Estudiante {
 
     public void setMatricula(Matricula matricula) {
         this.matricula = matricula;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

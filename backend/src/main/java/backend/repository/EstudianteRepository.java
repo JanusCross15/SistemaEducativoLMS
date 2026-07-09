@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface EstudianteRepository extends JpaRepository<Estudiante, Integer> {
 
+    Estudiante findByidUsuario(Integer idUsuario);
+
     Page<Estudiante> findByNombresContainingIgnoreCaseOrApellidoPaternoContainingIgnoreCaseOrCodigoEstudianteContainingIgnoreCase(
             String nombre, String apellido, String codigo, Pageable pageable);
 

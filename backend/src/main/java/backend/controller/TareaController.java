@@ -16,6 +16,12 @@ public class TareaController {
     @Autowired
     private TareaRepository tareaRepository;
 
+    // LISTAR POR CURSO
+    @GetMapping("/por-curso/{idCurso}")
+    public List<Tarea> listarTareasPorCurso(@PathVariable Integer idCurso) {
+        return tareaRepository.findByCurso(idCurso);
+    }
+
     // LISTAR
     @GetMapping
     public List<Tarea> listarTareas() {
